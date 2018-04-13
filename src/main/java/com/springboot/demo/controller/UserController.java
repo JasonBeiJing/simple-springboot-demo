@@ -53,8 +53,8 @@ public class UserController {
 			return Collections.emptyList();
 		}
 		List<User> users = new ArrayList<>(ids.size());
-		for (long i = 0; i < ids.size(); i++) {
-			users.add(getUser(i));
+		for (Long id:ids) {
+			users.add(getUser(id));
 		}
 		return users;
 	}
