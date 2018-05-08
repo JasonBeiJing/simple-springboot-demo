@@ -21,14 +21,14 @@ public class UserDao {
 	private NamedParameterJdbcOperations jdbcTemplate;
 	
 	public User get(Long id) {
-		String sql = "SELECT id, name FROM user WHERE id = ?";
+		String sql = "SELECT id, name FROM user WHERE id = :id";
 		Map<String, Long> paramMap = new HashMap<>();
 		paramMap.put("id", id);
 		
 		return jdbcTemplate.queryForObject(sql, paramMap, new RowMapper<User>() {
 			@Override
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return new User(rs.getLong(0), rs.getString(1));
+				return new User(rs.getLong(1), rs.getString(2));
 			}
 		});
 	}
@@ -36,7 +36,7 @@ public class UserDao {
 	@Transactional(propagation=Propagation.MANDATORY, rollbackFor=Exception.class)
 	public User save(User user) {
 		if(user.getId()==null) {
-			//create
+			//insert
 		}else {
 			//update
 		}
