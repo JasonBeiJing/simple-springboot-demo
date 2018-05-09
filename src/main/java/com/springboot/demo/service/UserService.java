@@ -21,31 +21,36 @@ public class UserService {
 	
 	public User get(Long id) {
 		User user = userDao.get(id);
-		
-		List<Attribute> myBusinessAttributes = new ArrayList<>();
-		myBusinessAttributes.add(new Attribute("1", "a"));
-		myBusinessAttributes.add(new Attribute("2", "b"));
-		user.setAttributes(myBusinessAttributes);
-		
+		user.setAttributes(otherBusiness());
 		return user;
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public User create(User user) {
 		if(user.getId()!=null) {
-			
+			user.setId(null);
 		}
-		userDao.save(user);
-		return null;
+		User result = userDao.save(user);
+		result.setAttributes(otherBusiness());
+		return result;
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public User update(User user) {
 		if(user.getId()==null) {
-			
+			throw new IllegalArgumentException("ID_REQUIRED");
 		}
-		userDao.save(user);
-		return null;
+		User result = userDao.save(user);
+		result.setAttributes(otherBusiness());
+		return result;
+	}
+	
+	private List<Attribute> otherBusiness() {
+		List<Attribute> myBusinessAttributes = new ArrayList<>();
+		myBusinessAttributes.add(new Attribute("1", "a"));
+		myBusinessAttributes.add(new Attribute("2", "b"));
+		
+		return myBusinessAttributes;
 	}
 
 }
