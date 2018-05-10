@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.springboot.demo.db.UserDao;
+import com.springboot.demo.dao.UserDao;
 import com.springboot.demo.entity.Attribute;
 import com.springboot.demo.entity.User;
 

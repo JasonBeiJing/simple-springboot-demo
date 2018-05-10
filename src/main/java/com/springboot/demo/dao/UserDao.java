@@ -1,4 +1,4 @@
-package com.springboot.demo.db;
+package com.springboot.demo.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

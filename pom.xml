@@ -11,6 +11,10 @@
 		<version>2.0.1.RELEASE</version>
 		<relativePath />
 	</parent>
+	
+	<properties>
+		<swagger.version>2.8.0</swagger.version>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -29,7 +33,18 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-
+		
+		<!-- swagger2 -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
