@@ -37,4 +37,12 @@ public class Attribute implements Serializable {
 	public void setValue(Object value) {
 		this.value = value;
 	}
+
+	@Override
+	public String toString() {
+		
+		System.err.println("*********************");
+		
+		return "Attribute [key=" + key + ", value=" + value + "]";
+	}
 }

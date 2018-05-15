@@ -13,7 +13,7 @@
 	</parent>
 	
 	<properties>
-		<swagger.version>2.8.0</swagger.version>
+		<swagger.version>1.7.0.RELEASE</swagger.version>
 	</properties>
 
 	<dependencies>
@@ -36,13 +36,8 @@
 		
 		<!-- swagger2 -->
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>${swagger.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
+			<groupId>com.spring4all</groupId>
+			<artifactId>swagger-spring-boot-starter</artifactId>
 			<version>${swagger.version}</version>
 		</dependency>
 	</dependencies>
