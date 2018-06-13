@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -65,7 +66,7 @@ public class UserController {
 	@GetMapping("/{id}")
 	public User get(@PathVariable Long id) {
 		if(logger.isDebugEnabled()) {
-			logger.debug(" === get user by id: {} ====", id);
+			logger.debug(" === get user by id : {} ===", id);
 		}
 		return userService.get(id);
 	}
@@ -76,6 +77,11 @@ public class UserController {
 			throw new IllegalArgumentException("ID_MISMATCHED");
 		}
 		return userService.update(user);
+	}
+	
+	@PatchMapping("/{id}")
+	public User updatePatch(@PathVariable Long id, @RequestParam(required=false) String name, @RequestParam(required=false) String email) {
+		return null;
 	}
 	
 	@DeleteMapping("/{id}")

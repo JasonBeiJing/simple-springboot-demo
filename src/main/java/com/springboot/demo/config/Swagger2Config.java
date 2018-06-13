@@ -1,7 +1,5 @@
 package com.springboot.demo.config;
 
-import static springfox.documentation.builders.PathSelectors.regex;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,9 +18,9 @@ public class Swagger2Config {
 	@Bean
 	public Docket productApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
+				.useDefaultResponseMessages(false)
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.springboot.demo.controller"))
-				//.paths(regex("/*"))
 				.build()
 				.apiInfo(metaData());
 	}
