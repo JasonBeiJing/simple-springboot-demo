@@ -18,16 +18,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.demo.controller.namespace.ApiNamespace;
 import com.springboot.demo.entity.User;
 import com.springboot.demo.service.UserService;
 
-import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(ApiNamespace.URI_USERS)
+@Api("user create / update / delete / get / list")
 public class UserController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -36,6 +38,7 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
 	public User create(@RequestBody User user) {
 		user.setId(null);
 		return userService.create(user);
@@ -51,7 +54,7 @@ public class UserController {
 		return Collections.emptyList();
 	}
 	
-	@ApiOperation(value = "Get an user by id", notes = "ahaha~~~, you can put some specific note here for this API")
+	@ApiOperation(value = "Get an user by id", notes = "ahaha~~~, you can put some specific notes here for this API")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Successfully retrieved the entity"),
 	        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -59,9 +62,11 @@ public class UserController {
 	        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 	        @ApiResponse(code = 500, message = "Unknown error")
 	})
-	@ApiImplicitParam(name = "id", value = "user id", dataTypeClass = Long.class, example = "/users/123")
 	@GetMapping("/{id}")
 	public User get(@PathVariable Long id) {
+		if(logger.isDebugEnabled()) {
+			logger.debug(" === get user by id: {} ====", id);
+		}
 		return userService.get(id);
 	}
 	

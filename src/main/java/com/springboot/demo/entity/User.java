@@ -12,9 +12,9 @@ public class User implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -5885111588950855229L;
-	@ApiModelProperty(value = "Unique ID")
+	@ApiModelProperty(value = "Unique ID", allowEmptyValue = false)
 	private Long id;
-	@ApiModelProperty(value = "The User name")
+	@ApiModelProperty(value = "The User name", allowEmptyValue = true)
 	private String name;
 	private List<Attribute> attributes;
 
