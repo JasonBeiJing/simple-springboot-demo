@@ -16,3 +16,33 @@ spring:
       max-lifetime: 1800000
       connection-timeout: 30000
       connection-test-query: SELECT 1
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: true
+  hiddenPackages: com.springboot.demo
+  local:
+    default:
+      type: caffeine
+      limit: 100
+      keyConvertor: FASTJSON
+      expireAfterWriteInMillis: 100000
+    xyzArea:
+      type: caffeine
+      limit: 100
+      keyConvertor: FASTJSON
+      expireAfterWriteInMillis: 100000
+  remote:
+    default:
+      type: redis.lettuce # support lettuce
+      keyConvertor: FASTJSON
+      valueEncoder: java
+      valueDecoder: java
+      uri:
+        - redis://foobared@127.0.0.1:6379
+    xyzArea:
+      type: redis.lettuce
+      keyConvertor: FASTJSON
+      valueEncoder: java
+      valueDecoder: java
+      uri:
+        - redis://foobared@127.0.0.1:6379

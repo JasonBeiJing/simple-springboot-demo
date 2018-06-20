@@ -4,8 +4,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -16,29 +20,76 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alicp.jetcache.Cache;
+import com.alicp.jetcache.anno.CacheInvalidate;
+import com.alicp.jetcache.anno.CacheType;
+import com.alicp.jetcache.anno.Cached;
+import com.alicp.jetcache.anno.CreateCache;
 import com.springboot.demo.entity.User;
+import com.springboot.demo.exception.DatabaseException;
 
 @Repository
 public class UserDao {
+	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 
+	private static final String CACHE_NAME = "user-dao-cache";
+	
+	@CreateCache(name = CACHE_NAME, expire = 30, timeUnit = TimeUnit.SECONDS, cacheType = CacheType.REMOTE)
+	private Cache<Long, User> userCache;
+	
 	@Autowired
 	private NamedParameterJdbcOperations jdbcTemplate;
 	
-	public User get(Long id) {
+	@Cached(name = CACHE_NAME, expire = 30, timeUnit = TimeUnit.SECONDS, cacheType = CacheType.REMOTE, key = "#id")
+	//@CacheRefresh(refresh = 30, stopRefreshAfterLastAccess = 3600, timeUnit = TimeUnit.SECONDS)
+	//刷新行为是全局唯一的，也就是说，即使应用服务器是集群部署，也不会出现多个服务器同时去刷新一个key的情况
+	public User get1(Long id) throws DatabaseException {
+		if(logger.isDebugEnabled()) {
+			logger.debug(" == try to get user by id: {}  ===== ", id);
+		}
+		return getEntity(id);
+	}
+	
+	public User get2(Long id) throws DatabaseException {
+		//synchronous
+		User user = userCache.get(id);
+		if(logger.isDebugEnabled()) {			
+			logger.debug(" === got user from cache ? {} ==== ", user == null ? "NO" : "YES");
+		}
+		if(user == null) {
+			//asynchronous
+			userCache.PUT(id, user = getEntity(id), 30, TimeUnit.SECONDS);
+		}
+		return user;
+	}
+	
+	@CacheInvalidate(name = CACHE_NAME, key = "#id")
+	@Transactional(propagation=Propagation.MANDATORY, rollbackFor=Exception.class)
+	public void delete(Long id) {
+		logger.warn(" == delete the user with id: {}  ===== ", id);
+	}
+	
+	private User getEntity(Long id) throws DatabaseException {
 		String sql = "SELECT id, name FROM user WHERE id = :id";
 		Map<String, Long> paramMap = new HashMap<>();
 		paramMap.put("id", id);
 		
-		return jdbcTemplate.queryForObject(sql, paramMap, new RowMapper<User>() {
-			@Override
-			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return new User(rs.getLong(1), rs.getString(2));
-			}
-		});
+		try {
+			return jdbcTemplate.queryForObject(sql, paramMap, new RowMapper<User>() {
+				@Override
+				public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+					return new User(rs.getLong(1), rs.getString(2));
+				}
+			});
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		} catch (Exception e) {
+			throw new DatabaseException(DatabaseException.ERROR_CODE.DB_GET_ERROR, "database error : failed to get user entity", e);
+		}
 	}
 
 	@Transactional(propagation=Propagation.MANDATORY, rollbackFor=Exception.class)
-	public User save(User user) {
+	public User save(User user) throws DatabaseException {
 //		MapSqlParameterSource paramSource = new MapSqlParameterSource();
 //		paramSource.addValue("id", user.getId());
 //		paramSource.addValue("name", user.getName());
@@ -53,6 +104,6 @@ public class UserDao {
 			//update
 			jdbcTemplate.update("UPDATE user SET name= :name WHERE id= :id", paramSource);
 		}
-		return get(user.getId());
+		return get1(user.getId());
 	}
 }

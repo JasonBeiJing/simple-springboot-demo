@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.demo.controller.namespace.ApiNamespace;
 import com.springboot.demo.entity.User;
+import com.springboot.demo.exception.DatabaseException;
+import com.springboot.demo.exception.EntityNotFoundException;
+import com.springboot.demo.exception.IllegalVariableException;
 import com.springboot.demo.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -29,7 +33,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping(ApiNamespace.URI_USERS)
+@RequestMapping(value = ApiNamespace.URI_USERS, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api("user create / update / delete / get / list")
 public class UserController {
 
@@ -40,7 +44,7 @@ public class UserController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public User create(@RequestBody User user) {
+	public User create(@RequestBody User user) throws DatabaseException {
 		user.setId(null);
 		return userService.create(user);
 	}
@@ -64,17 +68,15 @@ public class UserController {
 	        @ApiResponse(code = 500, message = "Unknown error")
 	})
 	@GetMapping("/{id}")
-	public User get(@PathVariable Long id) {
-		if(logger.isDebugEnabled()) {
-			logger.debug(" === get user by id : {} ===", id);
-		}
-		return userService.get(id);
+	public User get(@PathVariable Long id, @RequestParam(required = false, defaultValue = "true") boolean annotation) throws DatabaseException, EntityNotFoundException {
+		return userService.get(id, annotation);
 	}
 	
 	@PutMapping("/{id}")
-	public User update(@PathVariable Long id, @RequestBody User user) {
+	public User update(@PathVariable Long id, @RequestBody User user) throws DatabaseException, IllegalVariableException {
 		if(user.getId()==null || !user.getId().equals(id)) {
-			throw new IllegalArgumentException("ID_MISMATCHED");
+			logger.warn(" === user.id and path.id are not matched, {}, {}", id, user.getId());
+			throw new IllegalVariableException("ID_MISMATCHED", "path.id and user.id are not matched!");
 		}
 		return userService.update(user);
 	}
@@ -86,6 +88,7 @@ public class UserController {
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable Long id) {
+	public void delete(@PathVariable Long id) throws DatabaseException {
+		userService.delete(id);
 	}
 }
