@@ -21,6 +21,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<!-- hibernate.validator 对 JSR-349 标准的实现不是很灵活，而且验证太分散 -->
+				<exclusion>
+					<groupId>org.hibernate.validator</groupId>
+	        		<artifactId>hibernate-validator</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

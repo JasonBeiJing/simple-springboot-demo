@@ -17,6 +17,9 @@ public class User implements Serializable {
 	@ApiModelProperty(value = "The User name", allowEmptyValue = true)
 	private String name;
 	private List<Attribute> attributes;
+	
+	private String a;
+	private String b;
 
 	public User() {
 		super();
@@ -50,6 +53,22 @@ public class User implements Serializable {
 
 	public void setAttributes(List<Attribute> attributes) {
 		this.attributes = attributes;
+	}
+
+	public String getA() {
+		return a;
+	}
+
+	public void setA(String a) {
+		this.a = a;
+	}
+
+	public String getB() {
+		return b;
+	}
+
+	public void setB(String b) {
+		this.b = b;
 	}
 
 }

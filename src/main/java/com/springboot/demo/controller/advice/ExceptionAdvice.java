@@ -1,10 +1,15 @@
 package com.springboot.demo.controller.advice;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,22 +27,41 @@ public class ExceptionAdvice {
 	@ExceptionHandler(EntityNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ResponseBody
-	public SerializableException handleEntityNotFoundException(EntityNotFoundException exception) {
-		return generateSerializableException(exception);
+	public List<SerializableException> handleEntityNotFoundException(EntityNotFoundException exception) {
+		return Collections.singletonList(generateSerializableException(exception));
 	}
 	
 	@ExceptionHandler(IllegalVariableException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
-	public SerializableException handleIllegalVariableException(IllegalVariableException exception) {
-		return generateSerializableException(exception);
+	public List<SerializableException> handleIllegalVariableException(IllegalVariableException exception) {
+		return Collections.singletonList(generateSerializableException(exception));
+	}
+	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	@ResponseBody
+	public List<SerializableException> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+		List<ObjectError> errors = exception.getBindingResult().getAllErrors();
+		List<SerializableException> out = new ArrayList<>(errors.size());
+		for (ObjectError objectError : errors) {
+			SerializableException ei = new SerializableException(objectError.getCode(), objectError.getDefaultMessage());
+//			ei.setObjectName(objectError.getObjectName());
+//			if (objectError instanceof FieldError) {
+//				FieldError fieldError = (FieldError) objectError;
+//				ei.setField(fieldError.getField());
+//				ei.setRejectedValue(fieldError.getRejectedValue() + "");
+//			}
+			out.add(ei);
+		}
+		return out;
 	}
 	
 	@ExceptionHandler(Throwable.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ResponseBody
-	public SerializableException handleThrowable(Throwable exception) {
-		return generateSerializableException(exception);
+	public List<SerializableException> handleThrowable(Throwable exception) {
+		return Collections.singletonList(generateSerializableException(exception));
 	}
 	
 	
