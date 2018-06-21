@@ -7,9 +7,9 @@ just a simple springboot demo with 2.0
 
 #swagger
 
-TODO
-
 #redis
+
+TODO
 
 #mq
 
