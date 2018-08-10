@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -20,11 +22,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alicp.jetcache.Cache;
-import com.alicp.jetcache.anno.CacheInvalidate;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.Cached;
-import com.alicp.jetcache.anno.CreateCache;
 import com.springboot.demo.entity.User;
 import com.springboot.demo.exception.DatabaseException;
 
@@ -34,15 +31,13 @@ public class UserDao {
 
 	private static final String CACHE_NAME = "user-dao-cache";
 	
-	@CreateCache(name = CACHE_NAME, expire = 30, timeUnit = TimeUnit.SECONDS, cacheType = CacheType.REMOTE)
-	private Cache<Long, User> userCache;
-	
 	@Autowired
 	private NamedParameterJdbcOperations jdbcTemplate;
+	@Autowired
+	private StringRedisTemplate stringRedisTemplate;
+	@Autowired
+	private RedisTemplate<String, User> userRedisTemplate;
 	
-	@Cached(name = CACHE_NAME, expire = 30, timeUnit = TimeUnit.SECONDS, cacheType = CacheType.REMOTE, key = "#id")
-	//@CacheRefresh(refresh = 30, stopRefreshAfterLastAccess = 3600, timeUnit = TimeUnit.SECONDS)
-	//刷新行为是全局唯一的，也就是说，即使应用服务器是集群部署，也不会出现多个服务器同时去刷新一个key的情况
 	public User get1(Long id) throws DatabaseException {
 		if(logger.isDebugEnabled()) {
 			logger.debug(" == try to get user by id: {}  ===== ", id);
@@ -52,7 +47,7 @@ public class UserDao {
 	
 	public User get2(Long id) throws DatabaseException {
 		//synchronous
-		User user = userCache.get(id);
+		User user = userRedisTemplate.opsForValue().get(key);
 		if(logger.isDebugEnabled()) {			
 			logger.debug(" === got user from cache ? {} ==== ", user == null ? "NO" : "YES");
 		}
@@ -63,7 +58,6 @@ public class UserDao {
 		return user;
 	}
 	
-	@CacheInvalidate(name = CACHE_NAME, key = "#id")
 	@Transactional(propagation=Propagation.MANDATORY, rollbackFor=Exception.class)
 	public void delete(Long id) {
 		logger.warn(" == delete the user with id: {}  ===== ", id);

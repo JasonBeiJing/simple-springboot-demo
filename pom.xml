@@ -52,10 +52,9 @@
 		    <version>${swagger.version}</version>
 		</dependency>
 		 <dependency>
-		    <groupId>com.alicp.jetcache</groupId>
-		    <artifactId>jetcache-starter-redis-lettuce</artifactId>
-		    <version>${jetcache.version}</version>
-		</dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+            </dependency>
 		
 		<!-- for jdk 9, 10 -->
 	<dependency>
