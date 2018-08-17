@@ -33,6 +33,7 @@ public class UserDao {
 	
 	@Autowired
 	private NamedParameterJdbcOperations jdbcTemplate;
+	
 	@Autowired
 	private StringRedisTemplate stringRedisTemplate;
 	@Autowired

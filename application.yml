@@ -12,7 +12,7 @@ spring:
       maximum-pool-size: 15
       auto-commit: true
       idle-timeout: 30000
-      pool-name: DatebookHikariCP
+      pool-name: HikariDataSource-Mysql-Pool
       max-lifetime: 1800000
       connection-timeout: 30000
       connection-test-query: SELECT 1
@@ -27,6 +27,12 @@ spring:
     database: 0
     host: 127.0.0.1
     port: 6379
-    password: 
+    password: abc123
     ssl: false
     timeout: 1000
+    #cluster:
+      #max-redirects: 3
+      #nodes: 127.0.0.1:7001, 127.0.0.1:7002, 127.0.0.1:7003
+    #sentinel:
+      #master: 
+      #nodes: 
