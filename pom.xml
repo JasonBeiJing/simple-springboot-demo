@@ -20,7 +20,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
 
 		<swagger.version>2.8.0</swagger.version>
-		<jetcache.version>2.5.2</jetcache.version>
+		<apache.commons.pool2.version>2.2</apache.commons.pool2.version>
 	</properties>
 
 	<dependencies>
@@ -61,6 +61,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
       	</dependency>
+      	<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+				<version>${apache.commons.pool2.version}</version>
+			</dependency>
 	</dependencies>
 
 	<build>

@@ -23,8 +23,8 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 	
-	public User get(Long id, boolean annotation) throws DatabaseException, EntityNotFoundException {
-		User user = annotation ? userDao.get1(id) : userDao.get2(id);
+	public User get(Long id) throws DatabaseException, EntityNotFoundException {
+		User user = userDao.get(id);
 		if(user == null) {
 			logger.warn("user not found with id: {}", id);
 			throw new EntityNotFoundException(EntityNotFoundException.ERROR_CODE.USER_NOT_FOUND, "user not found : " + id);
@@ -55,7 +55,7 @@ public class UserService {
 	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public void delete(Long id) throws DatabaseException {
-		User user = userDao.get1(id);
+		User user = userDao.get(id);
 		if(user != null) {
 			userDao.delete(id);
 		}

@@ -3,9 +3,9 @@ spring:
     name: springboot-demo
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/springboot_demo?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
     username: root
-    password: 
+    password: mysql
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       minimum-idle: 5
@@ -19,17 +19,14 @@ spring:
   redis:
     lettuce:
       pool: 
-        max-active：8
+        max-active: 8
         max-idle: 8
-        min-idle: 0
+        min-idle: 1
         max-wait: -1
-      shutdown-timeout: 100
-    cluster:
-      nodes: 127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003
-      max-redirects: 3
+      shutdown-timeout: 1000
     database: 0
-    # host: 127.0.0.1
-    # port: 6379
-    password: abc123
+    host: 127.0.0.1
+    port: 6379
+    password: 
     ssl: false
     timeout: 1000

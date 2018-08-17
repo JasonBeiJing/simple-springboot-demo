@@ -69,8 +69,8 @@ public class UserController {
 	        @ApiResponse(code = 500, message = "Unknown error")
 	})
 	@GetMapping("/{id}")
-	public User get(@PathVariable Long id, @RequestParam(required = false, defaultValue = "true") boolean annotation) throws DatabaseException, EntityNotFoundException {
-		return userService.get(id, annotation);
+	public User get(@PathVariable Long id) throws DatabaseException, EntityNotFoundException {
+		return userService.get(id);
 	}
 	
 	@PutMapping("/{id}")

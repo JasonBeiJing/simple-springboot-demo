@@ -29,7 +29,7 @@ import com.springboot.demo.exception.DatabaseException;
 public class UserDao {
 	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 
-	private static final String CACHE_NAME = "user-dao-cache";
+	private static final String CACHE_NAME = "USER_DAO_CACHE_";
 	
 	@Autowired
 	private NamedParameterJdbcOperations jdbcTemplate;
@@ -38,22 +38,14 @@ public class UserDao {
 	@Autowired
 	private RedisTemplate<String, User> userRedisTemplate;
 	
-	public User get1(Long id) throws DatabaseException {
-		if(logger.isDebugEnabled()) {
-			logger.debug(" == try to get user by id: {}  ===== ", id);
-		}
-		return getEntity(id);
-	}
 	
-	public User get2(Long id) throws DatabaseException {
-		//synchronous
-		User user = userRedisTemplate.opsForValue().get(key);
+	public User get(Long id) throws DatabaseException {
+		User user = userRedisTemplate.opsForValue().get(CACHE_NAME + id);
 		if(logger.isDebugEnabled()) {			
 			logger.debug(" === got user from cache ? {} ==== ", user == null ? "NO" : "YES");
 		}
 		if(user == null) {
-			//asynchronous
-			userCache.PUT(id, user = getEntity(id), 30, TimeUnit.SECONDS);
+			userRedisTemplate.opsForValue().set(CACHE_NAME + id, user = getEntity(id), 30, TimeUnit.SECONDS);
 		}
 		return user;
 	}
@@ -98,6 +90,6 @@ public class UserDao {
 			//update
 			jdbcTemplate.update("UPDATE user SET name= :name WHERE id= :id", paramSource);
 		}
-		return get1(user.getId());
+		return get(user.getId());
 	}
 }
