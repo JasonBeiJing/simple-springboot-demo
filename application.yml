@@ -42,6 +42,7 @@ spring:
     admin:
       client:
         url: http://localhost:8080
+#Spring Boot Actuator: -->  https://docs.spring.io/spring-boot/docs/2.0.4.RELEASE/reference/htmlsingle/#production-ready
 management:
   endpoints:
     web:
