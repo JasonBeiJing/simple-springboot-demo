@@ -30,43 +30,43 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootHelperInf
 	
 	@PostConstruct
 	public void init() {
-		if(logger.isWarnEnabled()) {
-			logger.warn("========================");
-			logger.warn("=============");
+		if(logger.isInfoEnabled()) {
+			logger.info("========================");
+			logger.info("=============");
 			mysqlConfig();
-			logger.warn("=============");
-			logger.warn("========================");
+			logger.info("=============");
+			logger.info("========================");
 		}
 	}
 	
 	private void mysqlConfig() {
 		if(!CollectionUtils.isEmpty(datasources)) {
 			for(DataSource ds:datasources) {				
-				logger.warn("##### MYSQL DATASOURCE TYPE : {}", ds.getClass().getCanonicalName());
+				logger.info("##### MYSQL DATASOURCE TYPE : {}", ds.getClass().getCanonicalName());
 			}
 		}else {
-			logger.warn("##### MYSQL DATASOURCE TYPE --> NOT FOUND");
+			logger.info("##### MYSQL DATASOURCE TYPE --> NOT FOUND");
 		}
 		if(!CollectionUtils.isEmpty(jdbcOperations)) {			
 			for(JdbcOperations jo:jdbcOperations) {
-				logger.warn("##### MYSQL JdbcOperations : {}", jo.getClass().getCanonicalName());
+				logger.info("##### MYSQL JdbcOperations : {}", jo.getClass().getCanonicalName());
 			}
 		}else {
-			logger.warn("##### MYSQL JdbcOperations --> NOT FOUND");
+			logger.info("##### MYSQL JdbcOperations --> NOT FOUND");
 		}
 		if(!CollectionUtils.isEmpty(namedParameterJdbcOperations)) {			
 			for(NamedParameterJdbcOperations npjo:namedParameterJdbcOperations) {
-				logger.warn("##### MYSQL NamedParameterJdbcOperations : {}", npjo.getClass().getCanonicalName());
+				logger.info("##### MYSQL NamedParameterJdbcOperations : {}", npjo.getClass().getCanonicalName());
 			}
 		}else {
-			logger.warn("##### MYSQL NamedParameterJdbcOperations --> NOT FOUND");
+			logger.info("##### MYSQL NamedParameterJdbcOperations --> NOT FOUND");
 		}
 		if(!CollectionUtils.isEmpty(transactionManagers)) {
 			for(PlatformTransactionManager transactionManager:transactionManagers) {
-				logger.warn("##### MYSQL TRANSACTION MANAGER : {} ",  transactionManager.getClass().getCanonicalName());
+				logger.info("##### MYSQL TRANSACTION MANAGER : {} ",  transactionManager.getClass().getCanonicalName());
 			}
 		}else {
-			logger.warn("##### MYSQL TRANSACTION MANAGER --> NOT FOUND ");
+			logger.info("##### MYSQL TRANSACTION MANAGER --> NOT FOUND ");
 		}
 	}
 	

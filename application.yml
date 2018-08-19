@@ -1,3 +1,5 @@
+server:
+  port: 8081
 spring:
   application:
     name: springboot-demo
@@ -36,3 +38,12 @@ spring:
     #sentinel:
       #master: 
       #nodes: 
+  boot:
+    admin:
+      client:
+        url: http://localhost:8080
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
