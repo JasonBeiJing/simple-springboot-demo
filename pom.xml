@@ -4,6 +4,8 @@
 	<groupId>com.mc.service</groupId>
 	<artifactId>springboot-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<name>spring boot demo</name>
+	<description>a simple springboot demo with springboot admin</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

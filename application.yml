@@ -44,7 +44,12 @@ spring:
         url: http://localhost:8080
 #Spring Boot Actuator: -->  https://docs.spring.io/spring-boot/docs/2.0.4.RELEASE/reference/htmlsingle/#production-ready
 management:
+  server:
+    port: 9999 # should be protected after firewall
   endpoints:
     web:
       exposure:
         include: "*"
+  endpoint:
+    health:
+      show-details: always

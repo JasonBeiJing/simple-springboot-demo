@@ -6,7 +6,7 @@ just a simple springboot demo with 2.0
 #restful api
 
 #swagger
-http://localhost:8080/swagger-ui.html
+http://localhost:8081/swagger-ui.html
 
 #redis
 
