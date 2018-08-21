@@ -23,6 +23,7 @@ public class MvcConfig implements WebMvcConfigurer{
 		registry.addInterceptor(userInterceptor);
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}
+	
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
