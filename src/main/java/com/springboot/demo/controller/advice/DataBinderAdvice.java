@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,7 +22,7 @@ public class DataBinderAdvice{
 	@InitBinder
 	public void validators(WebDataBinder binder){		
 		List<Validator> vas = new ArrayList<Validator>();
-		if(validators!=null && !validators.isEmpty()){			
+		if(!CollectionUtils.isEmpty(validators)){			
 			for(Validator validator:validators){
 				if(binder.getTarget()!=null && validator.supports(binder.getTarget().getClass())){
 					if(logger.isDebugEnabled()) {						
@@ -30,7 +31,7 @@ public class DataBinderAdvice{
 					vas.add(validator);  
 				}
 			}
-			binder.replaceValidators(vas.toArray(new Validator[0]));
+			binder.replaceValidators(vas.toArray(new Validator[vas.size()]));
 		}
 	}
 }

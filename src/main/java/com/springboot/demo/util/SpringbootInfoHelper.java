@@ -13,11 +13,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Component
-public class SpringbootHelperInfo {
+public class SpringbootInfoHelper {
 
-private static final Logger logger = LoggerFactory.getLogger(SpringbootHelperInfo.class);
+private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelper.class);
 
 	@Autowired(required = false)
 	private List<JdbcOperations> jdbcOperations;
@@ -27,6 +28,9 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootHelperInf
 	private List<PlatformTransactionManager> transactionManagers;
 	@Autowired(required = false)
 	private List<DataSource> datasources;
+	@Autowired(required = false)
+	private List<WebMvcConfigurer> wmcs;
+	
 	
 	@PostConstruct
 	public void init() {
@@ -34,6 +38,7 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootHelperInf
 			logger.info("========================");
 			logger.info("=============");
 			mysqlConfig();
+			mvc();
 			logger.info("=============");
 			logger.info("========================");
 		}
@@ -67,6 +72,14 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootHelperInf
 			}
 		}else {
 			logger.info("##### MYSQL TRANSACTION MANAGER --> NOT FOUND ");
+		}
+	}
+	
+	public void mvc() {
+		if(wmcs != null) {			
+			for(WebMvcConfigurer wmc:wmcs) {
+				logger.info("WebMvcConfigurer ====> " + wmc.getClass().getCanonicalName());
+			}
 		}
 	}
 	
