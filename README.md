@@ -8,13 +8,13 @@ just a simple springboot demo with 2.0
 #swagger
 http://localhost:8081/swagger-ui.html
 
-#redis
 
 TODO
-
-#mq
-
+#redis
+#redis cluster
+#redis reactive
 #mongodb
+#mq
 
 #es
 

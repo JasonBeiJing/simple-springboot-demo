@@ -8,6 +8,9 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Component;
@@ -30,6 +33,11 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 	private List<DataSource> datasources;
 	@Autowired(required = false)
 	private List<WebMvcConfigurer> wmcs;
+	@Autowired(required = false)
+	private List<RedisConnectionFactory> redisConnectionFactories;
+	@SuppressWarnings("rawtypes")
+	@Autowired(required = false)
+	private List<RedisOperations> ros;
 	
 	
 	@PostConstruct
@@ -39,6 +47,7 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 			logger.info("=============");
 			mysqlConfig();
 			mvc();
+			redis();
 			logger.info("=============");
 			logger.info("========================");
 		}
@@ -76,10 +85,33 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 	}
 	
 	public void mvc() {
-		if(wmcs != null) {			
+		if(!CollectionUtils.isEmpty(wmcs)) {			
 			for(WebMvcConfigurer wmc:wmcs) {
 				logger.info("WebMvcConfigurer ====> " + wmc.getClass().getCanonicalName());
 			}
+		}else {
+			logger.info(" ======= NO WebMvcConfigurer found ===========");
+		}
+	}
+	
+	public void redis() {
+		if(!CollectionUtils.isEmpty(redisConnectionFactories)) {
+			for(RedisConnectionFactory rcf:redisConnectionFactories) {
+				logger.info("RedisConnectionFactory ===> " + rcf.getClass().getCanonicalName());
+				RedisConnection rc = rcf.getConnection();
+				if(rc !=null ) {
+					logger.info("RedisConnection ===> " + rc.getClass().getCanonicalName());
+				}
+			}
+		}else{
+			logger.info(" ======= NO RedisConnectionFactory found ===========");
+		}
+		if(!CollectionUtils.isEmpty(ros)) {
+			for(@SuppressWarnings("rawtypes") RedisOperations ro:ros) {
+				logger.info("RedisOperations ===> " + ro.getClass().getCanonicalName());
+			}
+		}else{
+			logger.info(" ======= NO RedisOperations found ===========");
 		}
 	}
 	
