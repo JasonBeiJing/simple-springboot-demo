@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.springboot.demo.dao.UserDao;
 import com.springboot.demo.entity.Attribute;
@@ -24,6 +25,8 @@ public class UserService {
 	private UserDao userDao;
 	
 	public User get(Long id) throws DatabaseException, EntityNotFoundException {
+		System.err.println(TransactionSynchronizationManager.isActualTransactionActive() + " ========= " + TransactionSynchronizationManager.isCurrentTransactionReadOnly() + " ===== " + TransactionSynchronizationManager.getCurrentTransactionName());
+		
 		User user = userDao.get(id);
 		if(user == null) {
 			logger.warn("user not found with id: {}", id);
@@ -33,8 +36,10 @@ public class UserService {
 		return user;
 	}
 	
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor=Throwable.class) //rollbackFor 默认为：RuntimeException OR Error
 	public User create(User user) throws DatabaseException {
+		System.err.println(TransactionSynchronizationManager.isActualTransactionActive() + " ========= " + TransactionSynchronizationManager.isCurrentTransactionReadOnly() + " ===== " + TransactionSynchronizationManager.getCurrentTransactionName());
+		
 		if(user.getId()!=null) {
 			user.setId(null);
 		}
@@ -42,9 +47,11 @@ public class UserService {
 		result.setAttributes(otherBusiness());
 		return result;
 	}
-	
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor=Throwable.class) //rollbackFor 默认为：RuntimeException OR Error
 	public User update(User user) throws DatabaseException {
+		System.err.println(TransactionSynchronizationManager.isActualTransactionActive() + " ========= " + TransactionSynchronizationManager.isCurrentTransactionReadOnly() + " ===== " + TransactionSynchronizationManager.getCurrentTransactionName());
+		
 		if(user.getId()==null) {
 			throw new IllegalArgumentException("ID_REQUIRED");
 		}
@@ -53,8 +60,10 @@ public class UserService {
 		return result;
 	}
 	
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor=Throwable.class) //rollbackFor 默认为：RuntimeException OR Error
 	public void delete(Long id) throws DatabaseException {
+		System.err.println(TransactionSynchronizationManager.isActualTransactionActive() + " ========= " + TransactionSynchronizationManager.isCurrentTransactionReadOnly() + " ===== " + TransactionSynchronizationManager.getCurrentTransactionName());
+		
 		User user = userDao.get(id);
 		if(user != null) {
 			userDao.delete(id);

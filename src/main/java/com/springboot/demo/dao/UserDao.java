@@ -51,7 +51,7 @@ public class UserDao {
 		return user;
 	}
 	
-	@Transactional(propagation=Propagation.MANDATORY, rollbackFor=Exception.class)
+	@Transactional(propagation=Propagation.MANDATORY, rollbackFor=Throwable.class)
 	public void delete(Long id) {
 		logger.warn(" == delete the user with id: {}  ===== ", id);
 	}
@@ -75,7 +75,7 @@ public class UserDao {
 		}
 	}
 
-	@Transactional(propagation=Propagation.MANDATORY, rollbackFor=Exception.class)
+	@Transactional(propagation=Propagation.MANDATORY, rollbackFor=Throwable.class)
 	public User save(User user) throws DatabaseException {
 //		MapSqlParameterSource paramSource = new MapSqlParameterSource();
 //		paramSource.addValue("id", user.getId());
