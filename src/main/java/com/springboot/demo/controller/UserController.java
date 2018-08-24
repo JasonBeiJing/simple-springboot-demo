@@ -77,7 +77,7 @@ public class UserController {
 	public User update(@PathVariable Long id, @RequestBody User user) throws DatabaseException, IllegalVariableException {
 		if(user.getId()==null || !user.getId().equals(id)) {
 			logger.warn(" === user.id and path.id are not matched, {}, {}", id, user.getId());
-			throw new IllegalVariableException("ID_MISMATCHED", "path.id and user.id are not matched!");
+			throw new IllegalVariableException(IllegalVariableException.ERROR_CODE.ID_MISMATCHED, "path.id and user.id are not matched!");
 		}
 		return userService.update(user);
 	}

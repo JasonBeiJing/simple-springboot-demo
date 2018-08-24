@@ -27,7 +27,7 @@ public class UserService {
 		User user = userDao.get(id);
 		if(user == null) {
 			logger.warn("user not found with id: {}", id);
-			throw new EntityNotFoundException(EntityNotFoundException.ERROR_CODE.USER_NOT_FOUND, "user not found : " + id);
+			throw new EntityNotFoundException(EntityNotFoundException.ERROR_CODE.USER_NOT_FOUND, id);
 		}
 		user.setAttributes(otherBusiness());
 		return user;
@@ -45,9 +45,6 @@ public class UserService {
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor=Throwable.class) //rollbackFor 默认为：RuntimeException OR Error
 	public User update(User user) throws DatabaseException {
-		if(user.getId()==null) {
-			throw new IllegalArgumentException("ID_REQUIRED");
-		}
 		User result = userDao.save(user);
 		result.setAttributes(otherBusiness());
 		return result;

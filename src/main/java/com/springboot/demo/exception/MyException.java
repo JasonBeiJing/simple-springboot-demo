@@ -7,20 +7,23 @@ public class MyException extends Exception {
 	 */
 	private static final long serialVersionUID = -6810553140147813877L;
 	private String errorCode;
-	private String errorMessage;
-	private Throwable exception; 
+	private String defaultErrorMessage;
+	private Object[] args;
 	
 	
-	public MyException(String errorCode, String errorMessage, Throwable exception) {
-		super();
+	public MyException(String errorCode, String defaultErrorMessage, Throwable exception, Object... args) {
+		super(exception);
 		this.errorCode = errorCode;
-		this.errorMessage = errorMessage;
-		this.setException(exception);
+		this.defaultErrorMessage = defaultErrorMessage;
+		this.args = args;
 	}
-	public MyException(String errorCode, String errorMessage) {
-		super();
-		this.errorCode = errorCode;
-		this.errorMessage = errorMessage;
+	
+	public MyException(String errorCode, Object[] args) {
+		this(errorCode, null, null, args);
+	}
+	
+	public MyException(String errorCode) {
+		this(errorCode, null, null);
 	}
 	
 	
@@ -33,16 +36,18 @@ public class MyException extends Exception {
 	public void setErrorCode(String errorCode) {
 		this.errorCode = errorCode;
 	}
-	public String getErrorMessage() {
-		return errorMessage;
+	public String getDefaultErrorMessage() {
+		return defaultErrorMessage;
 	}
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
+	public void setDefaultErrorMessage(String defaultErrorMessage) {
+		this.defaultErrorMessage = defaultErrorMessage;
 	}
-	public Throwable getException() {
-		return exception;
+
+	public Object[] getArgs() {
+		return args;
 	}
-	public void setException(Throwable exception) {
-		this.exception = exception;
+
+	public void setArgs(Object[] args) {
+		this.args = args;
 	}
 }

@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisOperations;
@@ -38,6 +39,8 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 	@SuppressWarnings("rawtypes")
 	@Autowired(required = false)
 	private List<RedisOperations> ros;
+	@Autowired(required = false)
+	private List<MessageSource> mss;
 	
 	
 	@PostConstruct
@@ -48,11 +51,13 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 			mysqlConfig();
 			mvc();
 			redis();
+			i18n();
 			logger.info("=============");
 			logger.info("========================");
 		}
 	}
 	
+
 	private void mysqlConfig() {
 		if(!CollectionUtils.isEmpty(datasources)) {
 			for(DataSource ds:datasources) {				
@@ -112,6 +117,16 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 			}
 		}else{
 			logger.info(" ======= NO RedisOperations found ===========");
+		}
+	}
+	
+	private void i18n() {
+		if(mss!=null) {
+			for(MessageSource ms:mss) {
+				logger.info("MessageSource -------- >" + ms.getClass().getCanonicalName());
+			}			
+		}else {
+			logger.info(" ======= NO MessageSource found ===========");
 		}
 	}
 	

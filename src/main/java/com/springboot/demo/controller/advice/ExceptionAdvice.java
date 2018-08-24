@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,6 +26,9 @@ import com.springboot.demo.exception.MyException;
 public class ExceptionAdvice {
 
 	private static final Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
+	
+	@Autowired
+	private MessageSource messageSource;
 	
 	@ExceptionHandler(EntityNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
@@ -65,10 +71,10 @@ public class ExceptionAdvice {
 	}
 	
 	
-	private static SerializableException generateSerializableException(Throwable e){
+	private SerializableException generateSerializableException(Throwable e){
 		if(e instanceof MyException) {
 			MyException me = (MyException)e;
-			return new SerializableException(me.getErrorCode(), me.getErrorMessage());
+			return new SerializableException(me.getErrorCode(), messageSource.getMessage(me.getErrorCode(), me.getArgs(), me.getDefaultErrorMessage(), LocaleContextHolder.getLocale()));
 		}else {
 			if(logger.isWarnEnabled()) {
 				logger.error("UNKNOWN_ERROR", e);
