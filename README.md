@@ -8,6 +8,7 @@ just a simple springboot demo with 2.0
 #swagger
 http://localhost:8081/swagger-ui.html
 
+#i18n
 
 TODO
 #redis
