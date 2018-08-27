@@ -51,7 +51,9 @@ public class ExceptionAdvice {
 		List<ObjectError> errors = exception.getBindingResult().getAllErrors();
 		List<SerializableException> out = new ArrayList<>(errors.size());
 		for (ObjectError objectError : errors) {
-			SerializableException ei = new SerializableException(objectError.getCode(), objectError.getDefaultMessage());
+			String errorCode = objectError.getCode();
+			String errorMessage = messageSource.getMessage(errorCode, objectError.getArguments(), objectError.getDefaultMessage(), LocaleContextHolder.getLocale());
+			SerializableException ei = new SerializableException(errorCode, errorMessage);
 //			ei.setObjectName(objectError.getObjectName());
 //			if (objectError instanceof FieldError) {
 //				FieldError fieldError = (FieldError) objectError;

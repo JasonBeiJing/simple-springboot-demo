@@ -10,6 +10,11 @@ import com.springboot.demo.entity.User;
 @Component
 public class UserValidator implements Validator{
 
+	private static enum ERROR_CODE {
+		A_MISSING,
+		B_MISSING
+	}
+	
 	@Override
 	public boolean supports(Class<?> clazz) {
 		if(User.class.isAssignableFrom(clazz)) {
@@ -20,8 +25,8 @@ public class UserValidator implements Validator{
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "a", "a_missing", null, "a is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "b", "b_missing", null, "b is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "a", ERROR_CODE.A_MISSING.name(), new Object[] {}, "a is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "b", ERROR_CODE.B_MISSING.name(), new Object[] {}, "b is required");
 	}
 
 }
