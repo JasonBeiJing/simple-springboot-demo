@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -41,6 +42,8 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 	private List<RedisOperations> ros;
 	@Autowired(required = false)
 	private List<MessageSource> mss;
+	@Autowired
+	private List<ApplicationContext> acs;
 	
 	
 	@PostConstruct
@@ -52,6 +55,7 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 			mvc();
 			redis();
 			i18n();
+			applicationContexts();
 			logger.info("=============");
 			logger.info("========================");
 		}
@@ -127,6 +131,12 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 			}			
 		}else {
 			logger.info(" ======= NO MessageSource found ===========");
+		}
+	}
+	
+	private void applicationContexts() {
+		for(ApplicationContext ac:acs) {
+			logger.info("AppletContext ======> " + ac.getClass().getCanonicalName());
 		}
 	}
 	

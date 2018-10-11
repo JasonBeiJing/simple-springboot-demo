@@ -11,7 +11,9 @@ just a simple springboot demo with 2.0
 TODO
 #redis cluster
 #redis reactive
+#flyway
 #mongodb
 #mq
 #es
 #...
+#test (unit test ...)
