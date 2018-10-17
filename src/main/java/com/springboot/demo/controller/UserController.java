@@ -1,7 +1,10 @@
 package com.springboot.demo.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.jws.soap.SOAPBinding.Use;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.demo.controller.namespace.ApiNamespace;
+import com.springboot.demo.entity.Attribute;
 import com.springboot.demo.entity.User;
 import com.springboot.demo.exception.DatabaseException;
 import com.springboot.demo.exception.EntityNotFoundException;
@@ -57,7 +61,18 @@ public class UserController {
 			@RequestParam(required = false, defaultValue = "100") int limit, 
 			@RequestParam(required = false) String orderBy, 
 			@RequestParam(required = false, defaultValue = "true") boolean ascending){
-		return Collections.emptyList();
+		List<User> out = new ArrayList<>();
+		User u1 = new User(1L, "x");
+		List<Attribute> attributes1 = new ArrayList<>();
+		attributes1.add(new Attribute("x", "z"));
+		u1.setAttributes(attributes1);
+		out.add(u1);
+		User u2 = new User(2L, "2");
+		List<Attribute> attributes2 = new ArrayList<>();
+		attributes2.add(new Attribute("1", "2"));
+		u2.setAttributes(attributes2);
+		out.add(u2);
+		return out;
 	}
 	
 	@ApiOperation(value = "Get an user by id", notes = "ahaha~~~, you can put some specific notes here for this API")
