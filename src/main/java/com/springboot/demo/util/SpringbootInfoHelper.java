@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.ReactiveRedisOperations;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -35,11 +36,16 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 	private List<DataSource> datasources;
 	@Autowired(required = false)
 	private List<WebMvcConfigurer> wmcs;
+	
 	@Autowired(required = false)
 	private List<RedisConnectionFactory> redisConnectionFactories;
 	@SuppressWarnings("rawtypes")
 	@Autowired(required = false)
 	private List<RedisOperations> ros;
+	@SuppressWarnings("rawtypes")
+	@Autowired(required = false)
+	private List<ReactiveRedisOperations> rros;
+	
 	@Autowired(required = false)
 	private List<MessageSource> mss;
 	@Autowired
@@ -121,6 +127,13 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 			}
 		}else{
 			logger.info(" ======= NO RedisOperations found ===========");
+		}
+		if(!CollectionUtils.isEmpty(rros)) {
+			for(@SuppressWarnings("rawtypes") ReactiveRedisOperations rro:rros) {
+				logger.info("ReactiveRedisOperations ===> " + rro.getClass().getCanonicalName());
+			}
+		}else{
+			logger.info(" ======= NO ReactiveRedisOperations found ===========");
 		}
 	}
 	
