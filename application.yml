@@ -45,7 +45,7 @@ spring:
 #/actuator/health
 management:
   server:
-    port: 9999 # should be protected after firewall
+    port: 8888 # should be protected after firewall
   endpoints:
     web:
       exposure:
