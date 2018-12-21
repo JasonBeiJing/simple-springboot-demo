@@ -6,7 +6,7 @@ spring:
   application:
     name: springboot-demo
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
     username: root
     password: mysql
@@ -34,9 +34,9 @@ spring:
     password: abc123
     ssl: false
     timeout: 1000
-    cluster:
-      max-redirects: 5
-      nodes: 127.0.0.1:7001, 127.0.0.1:7002, 127.0.0.1:7003
+    #cluster:
+      #max-redirects: 5
+      #nodes: 127.0.0.1:7001, 127.0.0.1:7002, 127.0.0.1:7003
   boot:
     admin:
       client:

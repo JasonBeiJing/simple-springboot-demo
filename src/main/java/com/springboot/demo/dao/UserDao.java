@@ -4,14 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -29,34 +26,10 @@ import com.springboot.demo.exception.DatabaseException;
 public class UserDao {
 	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 
-	private static final String CACHE_NAME = "USER_DAO_CACHE_";
-	
 	@Autowired
 	private NamedParameterJdbcOperations jdbcTemplate;
 	
-	@Autowired
-	private StringRedisTemplate stringRedisTemplate;
-	@Autowired
-	private RedisTemplate<String, User> userRedisTemplate;
-	
-	
 	public User get(Long id) throws DatabaseException {
-		User user = userRedisTemplate.opsForValue().get(CACHE_NAME + id);
-		if(logger.isDebugEnabled()) {			
-			logger.debug(" === got user from cache ? {} ==== ", user == null ? "NO" : "YES");
-		}
-		if(user == null) {
-			userRedisTemplate.opsForValue().set(CACHE_NAME + id, user = getEntity(id), 30, TimeUnit.SECONDS);
-		}
-		return user;
-	}
-	
-	@Transactional(propagation=Propagation.MANDATORY, rollbackFor=Throwable.class)
-	public void delete(Long id) {
-		logger.warn(" == delete the user with id: {}  ===== ", id);
-	}
-	
-	private User getEntity(Long id) throws DatabaseException {
 		String sql = "SELECT id, name FROM user WHERE id = :id";
 		Map<String, Long> paramMap = new HashMap<>();
 		paramMap.put("id", id);
@@ -74,6 +47,12 @@ public class UserDao {
 			throw new DatabaseException(DatabaseException.ERROR_CODE.DB_GET_ERROR, "database error : failed to get user entity", e);
 		}
 	}
+	
+	@Transactional(propagation=Propagation.MANDATORY, rollbackFor=Throwable.class)
+	public void delete(Long id) {
+		logger.warn(" == delete the user with id: {}  ===== ", id);
+	}
+	
 
 	@Transactional(propagation=Propagation.MANDATORY, rollbackFor=Throwable.class)
 	public User save(User user) throws DatabaseException {
