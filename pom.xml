@@ -97,10 +97,18 @@
 			    <version>${jacoco.version}</version>
 			    <configuration>
 			    	<skip>false</skip>
-			    	<sourceEncoding>UTF-8</sourceEncoding>
+			    	<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+			    	<outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
 					<systemPropertyVariables>
 						<jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
 					</systemPropertyVariables>
+					<excludes>
+						<exclude>com/springboot/demo/Application*</exclude>
+						<exclude>com/springboot/demo/config/**/*</exclude>
+						<exclude>com/springboot/demo/exception/**/*</exclude>
+						<exclude>com/springboot/demo/util/**/*</exclude>
+						<exclude>com/springboot/demo/controller/namespace/**/*</exclude>
+					</excludes>
 				</configuration>
 			    <executions>
 			    	<execution>
@@ -111,7 +119,7 @@
 					</execution>
 					<execution>
 						<id>post-test</id>
-						<phase>prepare-package</phase>
+						<phase>test</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
