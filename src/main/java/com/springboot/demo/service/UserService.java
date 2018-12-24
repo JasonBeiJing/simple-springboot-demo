@@ -73,7 +73,7 @@ public class UserService {
 		}
 	}
 	
-	private List<Attribute> otherBusiness() {
+	public List<Attribute> otherBusiness() {
 		List<Attribute> myBusinessAttributes = new ArrayList<>();
 		myBusinessAttributes.add(new Attribute("1", "a"));
 		myBusinessAttributes.add(new Attribute("2", "b"));

@@ -1,10 +1,7 @@
 package com.springboot.demo.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import javax.jws.soap.SOAPBinding.Use;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

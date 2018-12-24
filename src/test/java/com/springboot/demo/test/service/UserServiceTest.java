@@ -1,18 +1,11 @@
 package com.springboot.demo.test.service;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+import java.util.List;
 
-import com.springboot.demo.Application;
-import com.springboot.demo.dao.UserDao;
-import com.springboot.demo.entity.User;
-import com.springboot.demo.exception.DatabaseException;
-import com.springboot.demo.exception.EntityNotFoundException;
+import org.junit.Assert;
+import org.junit.Test;
+
+import com.springboot.demo.entity.Attribute;
 import com.springboot.demo.service.UserService;
 
 //not good, has to start up the application
@@ -22,30 +15,37 @@ import com.springboot.demo.service.UserService;
 public class UserServiceTest {
 
 	
-	@MockBean
-	private UserDao userDao;
-	
-	@Autowired
-	private UserService userService;
+//	@MockBean
+//	private UserDao userDao;
+//	
+//	@Autowired
+//	private UserService userService;
+//	
+//	@Test
+//	public void testCreate() throws DatabaseException, EntityNotFoundException {
+//		User user = new User();
+//		user.setName("xxx");
+//		Mockito.when(userDao.save(user)).thenReturn(user);
+//		userService.create(user);
+//		
+//		//your Assert
+//	}
+//	
+//	@Test
+//	public void testGet() throws DatabaseException, EntityNotFoundException {
+//		User user = new User();
+//		user.setId(666L);
+//		Mockito.when(userDao.get(666L)).thenReturn(user);
+//		userService.get(666L);
+//		
+//		//your Assert
+//	}
 	
 	@Test
-	public void testCreate() throws DatabaseException, EntityNotFoundException {
-		User user = new User();
-		user.setName("xxx");
-		Mockito.when(userDao.save(user)).thenReturn(user);
-		userService.create(user);
-		
-		//your Assert
-	}
-	
-	@Test
-	public void testGet() throws DatabaseException, EntityNotFoundException {
-		User user = new User();
-		user.setId(666L);
-		Mockito.when(userDao.get(666L)).thenReturn(user);
-		userService.get(666L);
-		
-		//your Assert
+	public void test() {
+		UserService s = new UserService();
+		List<Attribute> out = s.otherBusiness();
+		Assert.assertEquals(2, out.size());
 	}
 	
 	
