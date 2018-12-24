@@ -24,6 +24,26 @@
 		<swagger.version>2.8.0</swagger.version>
 		<springboot.admin.version>2.1.1</springboot.admin.version>
 		<jacoco.version>0.8.2</jacoco.version>
+		
+		<!-- sonarqube properties -->
+        <sonar.projectKey>com.mc.service:springboot-demo</sonar.projectKey>
+		<sonar.projectName>${project.name}</sonar.projectName>
+		<sonar.projectVersion>${project.version}</sonar.projectVersion>
+		<sonar.projectDescription>${project.description}</sonar.projectDescription>
+		<sonar.sources>src/main</sonar.sources>
+        <sonar.tests>src/test</sonar.tests>
+        <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+        <sonar.jacoco.reportPaths>target/jacoco.exec</sonar.jacoco.reportPaths>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.host.url>http://localhost:9000</sonar.host.url>
+        <sonar.login>administrator</sonar.login>
+        <sonar.password>pwd</sonar.password>
+        <sonar.exclusions>
+        	
+        </sonar.exclusions>
+        <sonar.coverage.exclusions>
+        
+        </sonar.coverage.exclusions>
 	</properties>
 
 	<dependencies>
@@ -99,9 +119,6 @@
 			    	<skip>false</skip>
 			    	<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
 			    	<outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
-					<systemPropertyVariables>
-						<jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
-					</systemPropertyVariables>
 					<excludes>
 						<exclude>com/springboot/demo/Application*</exclude>
 						<exclude>com/springboot/demo/config/**/*</exclude>
@@ -116,6 +133,9 @@
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
+						<configuration>
+							<destFile>target/jacoco.exec</destFile>
+						</configuration>
 					</execution>
 					<execution>
 						<id>post-test</id>
@@ -132,4 +152,6 @@
 			</plugin>
 		</plugins>
 	</build>
+	<reporting>
+	</reporting>
 </project>	
