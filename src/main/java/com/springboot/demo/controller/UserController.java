@@ -1,5 +1,6 @@
 package com.springboot.demo.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +32,13 @@ import com.springboot.demo.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value = ApiNamespace.URI_USERS, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-@Api("user create / update / delete / get / list")
+@Api(value = "用户APIs", tags= {"A"})
 public class UserController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -44,6 +46,12 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@ApiOperation(value = "创建注册用户")
+	@ApiResponses(value = {
+			@ApiResponse(code = 201, message = "成功注册用户"),
+			@ApiResponse(code = 400, message = "输入参数有误"),
+	        @ApiResponse(code = 500, message = "注册用户失败，请联系管理员")
+	})
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public User create(@Validated @RequestBody User user) throws DatabaseException {
@@ -51,13 +59,22 @@ public class UserController {
 		return userService.create(user);
 	}
 	
+	@ApiOperation(value = "获取用户列表信息")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "成功获取到用户列表信息"),
+	        @ApiResponse(code = 401, message = "用户未登录"),
+	        @ApiResponse(code = 403, message = "用户未授权"),
+	        @ApiResponse(code = 500, message = "未知错误，需联系API管理员")
+	})
 	@GetMapping
 	public List<User> list(
-			@RequestParam(required = false) String name, 
-			@RequestParam(required = false, defaultValue = "0") int offset, 
-			@RequestParam(required = false, defaultValue = "100") int limit, 
-			@RequestParam(required = false) String orderBy, 
-			@RequestParam(required = false, defaultValue = "true") boolean ascending){
+			@RequestParam(required = false) @ApiParam("用户名字，支持模糊查询") String name,
+			@RequestParam(required = false) @ApiParam(value = "注册日期起点查询参数", format="2019-01-01", required=false, example="0xxx") LocalDate from,
+			@RequestParam(required = false) @ApiParam(value = "注册日期终点查询参数", format="2019-12-31", required=false) LocalDate to,
+			@RequestParam @ApiParam(value = "分页参数：起始位置", required=true) int offset, 
+			@RequestParam @ApiParam(value = "分页参数：每页多少条", required=true) int limit, 
+			@RequestParam(required = false, defaultValue="name") @ApiParam("按照什么字段进行排序") String orderBy, 
+			@RequestParam(required = false, defaultValue = "true") @ApiParam("如果排序，正序还是反序") boolean ascending){
 		List<User> out = new ArrayList<>();
 		User u1 = new User(1L, "x");
 		List<Attribute> attributes1 = new ArrayList<>();
@@ -72,13 +89,13 @@ public class UserController {
 		return out;
 	}
 	
-	@ApiOperation(value = "Get an user by id", notes = "ahaha~~~, you can put some specific notes here for this API")
+	@ApiOperation(value = "根据ID获取用户信息", notes = "这里我们可以添加更多API相关的描述,比如该API即将在xxxx年yy月xx日过期下线，请及时切换到新的API:/a/b")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Successfully retrieved the entity"),
-	        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-	        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-	        @ApiResponse(code = 500, message = "Unknown error")
+			@ApiResponse(code = 200, message = "根据ID成功获取到用户信息"),
+	        @ApiResponse(code = 401, message = "用户未登录"),
+	        @ApiResponse(code = 403, message = "用户未授权"),
+	        @ApiResponse(code = 404, message = "根据ID未找到到用户资源信息"),
+	        @ApiResponse(code = 500, message = "未知错误，需联系API管理员")
 	})
 	@GetMapping("/{id}")
 	public User get(@PathVariable Long id) throws DatabaseException, EntityNotFoundException {

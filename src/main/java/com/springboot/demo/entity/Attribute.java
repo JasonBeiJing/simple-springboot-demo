@@ -2,6 +2,8 @@ package com.springboot.demo.entity;
 
 import java.io.Serializable;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class Attribute implements Serializable {
 
 	/**
@@ -9,14 +11,16 @@ public class Attribute implements Serializable {
 	 */
 	private static final long serialVersionUID = -7581779002779038526L;
 
+	@ApiModelProperty(value = "用户属性-KEY", allowEmptyValue = false)
 	private String key;
-	private Object value;
+	@ApiModelProperty(value = "用户属性值-VALUE", allowEmptyValue = false)
+	private String value;
 	
 	public Attribute() {
 		super();
 	}
 
-	public Attribute(String key, Object value) {
+	public Attribute(String key, String value) {
 		super();
 		this.key = key;
 		this.value = value;
@@ -30,19 +34,16 @@ public class Attribute implements Serializable {
 		this.key = key;
 	}
 
-	public Object getValue() {
+	public String getValue() {
 		return value;
 	}
 
-	public void setValue(Object value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
 
 	@Override
 	public String toString() {
-		
-		System.err.println("*********************");
-		
 		return "Attribute [key=" + key + ", value=" + value + "]";
 	}
 }

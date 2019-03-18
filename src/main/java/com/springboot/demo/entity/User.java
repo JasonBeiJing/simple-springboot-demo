@@ -6,20 +6,18 @@ import java.util.List;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel(description = "All details about the User")
+@ApiModel(value = "用户对象", description = "用户对象POJO类，被xxx广泛使用")
 public class User implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5885111588950855229L;
-	@ApiModelProperty(value = "Unique ID", allowEmptyValue = false)
+	@ApiModelProperty(value = "用户唯一ID", allowEmptyValue = false)
 	private Long id;
-	@ApiModelProperty(value = "The User name", allowEmptyValue = true)
+	@ApiModelProperty(value = "用户名字", allowEmptyValue = true)
 	private String name;
+	@ApiModelProperty(value = "用户属性列表", allowEmptyValue = true)
 	private List<Attribute> attributes;
-	
-	private String a;
-	private String b;
 
 	public User() {
 		super();
@@ -55,20 +53,9 @@ public class User implements Serializable {
 		this.attributes = attributes;
 	}
 
-	public String getA() {
-		return a;
-	}
-
-	public void setA(String a) {
-		this.a = a;
-	}
-
-	public String getB() {
-		return b;
-	}
-
-	public void setB(String b) {
-		this.b = b;
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", attributes=" + attributes + "]";
 	}
 
 }
