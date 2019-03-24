@@ -33,5 +33,7 @@ public class DataBinderAdvice{
 			}
 			binder.replaceValidators(vas.toArray(new Validator[vas.size()]));
 		}
+		
+		//binder.registerCustomEditor(requiredType, propertyEditor);
 	}
 }
