@@ -12,12 +12,14 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.springboot.demo.dao.UserDao;
 import com.springboot.demo.entity.Attribute;
 import com.springboot.demo.entity.User;
 import com.springboot.demo.exception.DatabaseException;
 import com.springboot.demo.exception.EntityNotFoundException;
+import com.springboot.demo.exception.IllegalVariableException;
 
 @Service
 public class UserService {
@@ -49,9 +51,13 @@ public class UserService {
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor=Throwable.class) //rollbackFor 默认为：RuntimeException OR Error
-	public User create(User user) throws DatabaseException {
+	public User create(User user) throws DatabaseException, IllegalVariableException {
 		if(user.getId()!=null) {
 			user.setId(null);
+		}
+		List<User> users = userDao.list(null, user.getPhone(), null, false, 0, 1);
+		if(!CollectionUtils.isEmpty(users)) {
+			throw new IllegalVariableException(IllegalVariableException.ERROR_CODE.USER_EXISTED, "user existd with phone number: {0}", user.getPhone());
 		}
 		User result = userDao.save(user);
 		result.setAttributes(otherBusiness());

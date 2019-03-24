@@ -54,7 +54,7 @@ public class UserController {
 	})
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public User create(@Validated @RequestBody User user) throws DatabaseException {
+	public User create(@Validated @RequestBody User user) throws DatabaseException, IllegalVariableException {
 		user.setId(null);
 		return userService.create(user);
 	}
@@ -69,19 +69,19 @@ public class UserController {
 	@GetMapping
 	public List<User> list(
 			@RequestParam(required = false) @ApiParam("用户名字，支持模糊查询") String name,
-			@RequestParam(required = false) @ApiParam(value = "注册日期起点查询参数", format="2019-01-01", required=false, example="0xxx") LocalDate from,
+			@RequestParam(required = false) @ApiParam(value = "注册日期起点查询参数", format="2019-01-01", required=false, example="xxx") LocalDate from,
 			@RequestParam(required = false) @ApiParam(value = "注册日期终点查询参数", format="2019-12-31", required=false) LocalDate to,
 			@RequestParam @ApiParam(value = "分页参数：起始位置", required=true) int offset, 
 			@RequestParam @ApiParam(value = "分页参数：每页多少条", required=true) int limit, 
 			@RequestParam(required = false, defaultValue="name") @ApiParam("按照什么字段进行排序") String orderBy, 
 			@RequestParam(required = false, defaultValue = "true") @ApiParam("如果排序，正序还是反序") boolean ascending){
 		List<User> out = new ArrayList<>();
-		User u1 = new User(1L, "x");
+		User u1 = new User(1L, "x", "111");
 		List<Attribute> attributes1 = new ArrayList<>();
 		attributes1.add(new Attribute("x", "z"));
 		u1.setAttributes(attributes1);
 		out.add(u1);
-		User u2 = new User(2L, "2");
+		User u2 = new User(2L, "y", "2222");
 		List<Attribute> attributes2 = new ArrayList<>();
 		attributes2.add(new Attribute("1", "2"));
 		u2.setAttributes(attributes2);
@@ -103,7 +103,7 @@ public class UserController {
 	}
 	
 	@PutMapping("/{id}")
-	public User update(@PathVariable Long id, @RequestBody User user) throws DatabaseException, IllegalVariableException {
+	public User update(@PathVariable Long id, @Validated @RequestBody User user) throws DatabaseException, IllegalVariableException {
 		if(user.getId()==null || !user.getId().equals(id)) {
 			logger.warn(" === user.id and path.id are not matched, {}, {}", id, user.getId());
 			throw new IllegalVariableException(IllegalVariableException.ERROR_CODE.ID_MISMATCHED, "path.id and user.id are not matched!");
@@ -112,8 +112,10 @@ public class UserController {
 	}
 	
 	@PatchMapping("/{id}")
-	public User updatePatch(@PathVariable Long id, @RequestParam(required=false) String name, @RequestParam(required=false) String email) {
-		return null;
+	public User updatePatch(@PathVariable Long id, @RequestParam String name) throws DatabaseException, EntityNotFoundException {
+		User u = get(id);
+		u.setName(name);
+		return userService.update(u);
 	}
 	
 	@DeleteMapping("/{id}")

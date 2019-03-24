@@ -28,5 +28,4 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 		}
 		super.afterCompletion(request, response, handler, ex);
 	}
-
 }

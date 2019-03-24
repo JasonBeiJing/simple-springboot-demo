@@ -11,8 +11,7 @@ import com.springboot.demo.entity.User;
 public class UserValidator implements Validator{
 
 	private static enum ERROR_CODE {
-		A_MISSING,
-		B_MISSING
+		PHONE_MISSING
 	}
 	
 	@Override
@@ -25,8 +24,7 @@ public class UserValidator implements Validator{
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "a", ERROR_CODE.A_MISSING.name(), new Object[] {}, "a is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "b", ERROR_CODE.B_MISSING.name(), new Object[] {}, "b is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", ERROR_CODE.PHONE_MISSING.name(), new Object[] {}, "phone number is required");
 	}
 
 }

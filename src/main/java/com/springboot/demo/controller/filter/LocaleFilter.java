@@ -49,7 +49,6 @@ public class LocaleFilter implements Filter {
 			}else {
 				locale = Locale.US;
 			}
-			
 		}
 		
 		LocaleContextHolder.setLocale(locale);

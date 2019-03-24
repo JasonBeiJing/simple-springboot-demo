@@ -16,6 +16,8 @@ public class User implements Serializable {
 	private Long id;
 	@ApiModelProperty(value = "用户名字", allowEmptyValue = true)
 	private String name;
+	@ApiModelProperty(value = "用户手机号", allowEmptyValue = false)
+	private String phone;
 	@ApiModelProperty(value = "用户属性列表", allowEmptyValue = true)
 	private List<Attribute> attributes;
 
@@ -23,10 +25,11 @@ public class User implements Serializable {
 		super();
 	}
 	
-	public User(Long id, String name) {
+	public User(Long id, String name, String phone) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.phone = phone;
 	}
 
 	public Long getId() {
@@ -53,9 +56,19 @@ public class User implements Serializable {
 		this.attributes = attributes;
 	}
 
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", attributes=" + attributes + "]";
+		return "User [id=" + id + ", name=" + name + ", phone=" + phone + ", attributes=" + attributes
+				+ "]";
 	}
 
 }
