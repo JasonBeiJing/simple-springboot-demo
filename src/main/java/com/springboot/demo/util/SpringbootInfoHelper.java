@@ -19,6 +19,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Component
@@ -50,6 +51,8 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 	private List<MessageSource> mss;
 	@Autowired
 	private List<ApplicationContext> acs;
+	@Autowired(required = false)
+	private List<HandlerInterceptor> interceptors;
 	
 	
 	@PostConstruct
@@ -62,6 +65,7 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 			redis();
 			i18n();
 			applicationContexts();
+			interceptors();
 			logger.info("=============");
 			logger.info("========================");
 		}
@@ -150,6 +154,16 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 	private void applicationContexts() {
 		for(ApplicationContext ac:acs) {
 			logger.info("AppletContext ======> " + ac.getClass().getCanonicalName());
+		}
+	}
+	
+	private void interceptors() {
+		if(interceptors!=null) {
+			for(HandlerInterceptor in:interceptors) {
+				logger.info("HandlerInterceptor -------- >" + in.getClass().getCanonicalName());
+			}			
+		}else {
+			logger.info(" ======= NO HandlerInterceptor found ===========");
 		}
 	}
 	
