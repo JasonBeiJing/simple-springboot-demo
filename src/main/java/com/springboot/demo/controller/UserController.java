@@ -60,7 +60,7 @@ public class UserController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public User create(@Validated @RequestBody User user) throws DatabaseException, IllegalVariableException {
 		user.setId(null);
-		return userService.create(user);
+		return userService.createUser(user);
 	}
 	
 	@ApiOperation(value = "获取用户列表信息")
@@ -102,7 +102,7 @@ public class UserController {
 	})
 	@GetMapping("/{id}")
 	public User get(@PathVariable Long id) throws DatabaseException, EntityNotFoundException {
-		return userService.get(id);
+		return userService.getUserById(id);
 	}
 	
 	@ApiOperation("根据用户ID更新用户信息")
@@ -118,7 +118,7 @@ public class UserController {
 			logger.warn(" === user.id and path.id are not matched, {}, {}", id, user.getId());
 			throw new IllegalVariableException(IllegalVariableException.ERROR_CODE.ID_MISMATCHED, "path.id and user.id are not matched!");
 		}
-		return userService.update(user);
+		return userService.updateUser(user);
 	}
 	
 	@ApiOperation("根据用户ID更新用户部分信息")
@@ -132,7 +132,7 @@ public class UserController {
 	public User updatePatch(@PathVariable Long id, @RequestParam String name) throws DatabaseException, EntityNotFoundException {
 		User u = get(id);
 		u.setName(name);
-		return userService.update(u);
+		return userService.updateUser(u);
 	}
 	
 	@ApiOperation("根据用户ID删除用户")
@@ -144,6 +144,6 @@ public class UserController {
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) throws DatabaseException {
-		userService.delete(id);
+		userService.deleteUserById(id);;
 	}
 }

@@ -34,13 +34,13 @@ public class UserService {
 	@Autowired
 	private RedisTemplate<String, User> userRedisTemplate;
 	
-	public User get(Long id) throws DatabaseException, EntityNotFoundException {
+	public User getUserById(Long id) throws DatabaseException, EntityNotFoundException {
 		User user = userRedisTemplate.opsForValue().get(CACHE_NAME + id);
 		if(logger.isDebugEnabled()) {			
 			logger.debug(" === got user from cache ? {} ==== ", user == null ? "NO" : "YES");
 		}
 		if(user == null) {
-			userRedisTemplate.opsForValue().set(CACHE_NAME + id, user = userDao.get(id), 30, TimeUnit.SECONDS);
+			userRedisTemplate.opsForValue().set(CACHE_NAME + id, user = userDao.getById(id), 30, TimeUnit.SECONDS);
 		}
 		if(user == null) {
 			logger.warn("user not found with id: {}", id);
@@ -51,7 +51,7 @@ public class UserService {
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor=Throwable.class) //rollbackFor 默认为：RuntimeException OR Error
-	public User create(User user) throws DatabaseException, IllegalVariableException {
+	public User createUser(User user) throws DatabaseException, IllegalVariableException {
 		if(user.getId()!=null) {
 			user.setId(null);
 		}
@@ -65,17 +65,17 @@ public class UserService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor=Throwable.class) //rollbackFor 默认为：RuntimeException OR Error
-	public User update(User user) throws DatabaseException {
+	public User updateUser(User user) throws DatabaseException {
 		User result = userDao.save(user);
 		result.setAttributes(otherBusiness());
 		return result;
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor=Throwable.class) //rollbackFor 默认为：RuntimeException OR Error
-	public void delete(Long id) throws DatabaseException {
-		User user = userDao.get(id);
+	public void deleteUserById(Long id) throws DatabaseException {
+		User user = userDao.getById(id);
 		if(user != null) {
-			userDao.delete(id);
+			userDao.deleteById(id);
 		}
 	}
 	

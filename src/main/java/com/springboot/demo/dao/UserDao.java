@@ -32,7 +32,7 @@ public class UserDao {
 	@Autowired
 	private NamedParameterJdbcOperations jdbcTemplate;
 	
-	public User get(Long id) throws DatabaseException {
+	public User getById(Long id) throws DatabaseException {
 		String sql = "SELECT id, name, phone FROM user WHERE id = :id";
 		Map<String, Long> paramMap = new HashMap<>();
 		paramMap.put("id", id);
@@ -52,7 +52,7 @@ public class UserDao {
 	}
 	
 	@Transactional(propagation=Propagation.MANDATORY, rollbackFor=Throwable.class)
-	public void delete(Long id) {
+	public void deleteById(Long id) {
 		logger.warn(" == delete the user with id: {}  ===== ", id);
 	}
 	
@@ -73,7 +73,7 @@ public class UserDao {
 			//update
 			jdbcTemplate.update("UPDATE user SET name= :name, phone= :phone WHERE id= :id", paramSource);
 		}
-		return get(user.getId());
+		return getById(user.getId());
 	}
 
 	public List<User> list(String name, String phone, String orderBy, boolean asc, int offset, int limit){
