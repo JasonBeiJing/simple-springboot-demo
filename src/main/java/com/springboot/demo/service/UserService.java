@@ -36,9 +36,7 @@ public class UserService {
 	
 	public User getUserById(Long id) throws DatabaseException, EntityNotFoundException {
 		User user = userRedisTemplate.opsForValue().get(CACHE_NAME + id);
-		if(logger.isDebugEnabled()) {			
-			logger.debug(" === got user from cache ? {} ==== ", user == null ? "NO" : "YES");
-		}
+		logger.debug(" === got user from cache ? {} ==== ", user == null ? "NO" : "YES");
 		if(user == null) {
 			userRedisTemplate.opsForValue().set(CACHE_NAME + id, user = userDao.getById(id), 30, TimeUnit.SECONDS);
 		}

@@ -20,6 +20,14 @@ spring:
       max-lifetime: 1800000
       connection-timeout: 30000
       connection-test-query: SELECT 1
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      username: root
+      password: mongo
+      database: jw_dummy
+      authentication-database: admin
   redis:
     lettuce:
       pool: 
