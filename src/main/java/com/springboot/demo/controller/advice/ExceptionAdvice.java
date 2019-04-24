@@ -78,9 +78,7 @@ public class ExceptionAdvice {
 			MyException me = (MyException)e;
 			return new SerializableException(me.getErrorCode(), messageSource.getMessage(me.getErrorCode(), me.getArgs(), me.getDefaultErrorMessage(), LocaleContextHolder.getLocale()));
 		}else {
-			if(logger.isWarnEnabled()) {
-				logger.error("UNKNOWN_ERROR", e);
-			}
+			logger.error("UNKNOWN_ERROR", e);
 			return new SerializableException("UNKNOWN_ERROR", "未知错误");
 		}
 		

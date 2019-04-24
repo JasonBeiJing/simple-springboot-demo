@@ -3,6 +3,8 @@ server:
   servlet:
     context-path: /demo
 spring:
+  profiles:
+    active: dev
   application:
     name: springboot-demo
   datasource:
@@ -61,3 +63,19 @@ management:
   endpoint:
     health:
       show-details: always
+---
+spring:
+  profiles: dev
+logging:
+  config: classpath:log/logback-dev.xml
+---
+spring:
+  profiles: qa
+logging:
+  config: classpath:log/logback-qa.xml
+---
+spring:
+  profiles: live
+logging:
+  config: classpath:log/logback-live.xml
+---

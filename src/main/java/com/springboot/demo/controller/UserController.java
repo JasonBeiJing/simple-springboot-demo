@@ -102,6 +102,7 @@ public class UserController {
 	})
 	@GetMapping("/{id}")
 	public User get(@PathVariable Long id) throws DatabaseException, EntityNotFoundException {
+		logger.debug(" === got user with ID: {} ==== ", id);
 		return userService.getUserById(id);
 	}
 	
