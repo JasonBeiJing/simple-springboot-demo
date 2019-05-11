@@ -3,3 +3,6 @@
 .project
 .settings/
 /bin/
+.idea
+src/main/main.iml
+src/test/test.iml
