@@ -9,20 +9,20 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.util.CollectionUtils;
 
-import com.springboot.demo.entity.Tag;
+import com.springboot.demo.entity.Log;
 
-public class TagRepositoryImpl implements ITagRepository {
+public class LogRepositoryImpl implements ILogRepository {
 	
 	@Autowired
 	private MongoOperations mongoOperations;
 
 	@Override
-	public List<Tag> findAllByArguments(Collection<String> keys, Collection<String> types, String name) {
+	public List<Log> findAllByArguments(Collection<String> keys, Collection<String> types, String name) {
 		Query query = new Query();
 		if(!CollectionUtils.isEmpty(keys)) {
 			query.addCriteria(Criteria.where("keys").in(keys));
 		}
 		
-		return mongoOperations.find(query, Tag.class);
+		return mongoOperations.find(query, Log.class);
 	}
 }

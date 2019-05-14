@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
+import org.springframework.core.io.support.PropertiesLoaderSupport;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.ReactiveRedisOperations;
@@ -53,6 +54,8 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 	private List<ApplicationContext> acs;
 	@Autowired(required = false)
 	private List<HandlerInterceptor> interceptors;
+	@Autowired(required = false)
+	private List<PropertiesLoaderSupport> propertiesLoaders;
 	
 	
 	@PostConstruct
@@ -66,6 +69,7 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 			i18n();
 			applicationContexts();
 			interceptors();
+			propertiesLoaders();
 			logger.info("=============");
 			logger.info("========================");
 		}
@@ -164,6 +168,16 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 			}			
 		}else {
 			logger.info(" ======= NO HandlerInterceptor found ===========");
+		}
+	}
+	
+	private void propertiesLoaders() {
+		if(propertiesLoaders!=null) {
+			for(PropertiesLoaderSupport p:propertiesLoaders) {
+				logger.info("PropertiesLoaderSupport -------- >" + p.getClass().getCanonicalName());
+			}			
+		}else {
+			logger.info(" ======= NO PropertiesLoaderSupport found ===========");
 		}
 	}
 	

@@ -14,34 +14,34 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.demo.controller.namespace.ApiNamespace;
-import com.springboot.demo.entity.Tag;
+import com.springboot.demo.entity.Log;
 import com.springboot.demo.exception.EntityNotFoundException;
-import com.springboot.demo.service.TagService;
+import com.springboot.demo.service.LoggingService;
 
 import io.swagger.annotations.Api;
 
 @RestController
-@RequestMapping(value = ApiNamespace.URI_TAGS, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-@Api(value = "标签APIs", tags= {"B"})
-public class TagController {
+@RequestMapping(value = ApiNamespace.URI_LOGS, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@Api(value = "日志APIs", tags= {"B"})
+public class LoggingController {
 	
 	@Autowired
-	private TagService tagService;
+	private LoggingService logService;
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Tag create(@RequestBody Tag tag) {
-		tag.setId(null);
-		return tagService.createTag(tag);
+	public Log create(@RequestBody Log log) {
+		log.setId(null);
+		return logService.createLog(log);
 	}
 	
 	@GetMapping
-	public List<Tag> list(){
-		return tagService.listTags(null, null, null);
+	public List<Log> list(){
+		return logService.listLogs(null, null, null);
 	}
 
 	@GetMapping("/{id}")
-	public Tag get(@PathVariable String id) throws EntityNotFoundException {
-		return tagService.getTagById(id);
+	public Log get(@PathVariable String id) throws EntityNotFoundException {
+		return logService.getLogById(id);
 	}
 }

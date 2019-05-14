@@ -7,37 +7,37 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.springboot.demo.dao.TagRepository;
-import com.springboot.demo.entity.Tag;
+import com.springboot.demo.dao.LogRepository;
+import com.springboot.demo.entity.Log;
 import com.springboot.demo.exception.EntityNotFoundException;
 
 @Service
-public class TagService {
+public class LoggingService {
 
 	@Autowired
-	private TagRepository tagRepository;
+	private LogRepository logRepository;
 
-	public Tag createTag(Tag tag) {
-		return tagRepository.save(tag);
+	public Log createLog(Log log) {
+		return logRepository.save(log);
 	}
 
-	public Tag getTagById(String id) throws EntityNotFoundException {
-		Optional<Tag> tag = tagRepository.findById(id);
+	public Log getLogById(String id) throws EntityNotFoundException {
+		Optional<Log> tag = logRepository.findById(id);
 		if(!tag.isPresent()) {
 			throw new EntityNotFoundException(EntityNotFoundException.ERROR_CODE.TAG_NOT_FOUND, id);
 		}
 		return tag.get();
 	}
 	
-	public Tag getTagByKey(String key) throws EntityNotFoundException {
-		Tag tag = tagRepository.findByKey(key);
+	public Log getLogByKey(String key) throws EntityNotFoundException {
+		Log tag = logRepository.findByKey(key);
 		if(Objects.isNull(tag)) {
 			throw new EntityNotFoundException(EntityNotFoundException.ERROR_CODE.TAG_NOT_FOUND, key);
 		}
 		return tag;
 	}
 	
-	public List<Tag> listTags(List<String> keys, List<String> types, String name){
-		return tagRepository.findAllByArguments(keys, types, name);
+	public List<Log> listLogs(List<String> keys, List<String> types, String name){
+		return logRepository.findAllByArguments(keys, types, name);
 	}
 }

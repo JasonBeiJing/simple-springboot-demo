@@ -4,7 +4,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Tag extends AbstractMongoDateTimeEntity {
+public class Log extends AbstractMongoDateTimeEntity {
 
 	/**
 	 * 
