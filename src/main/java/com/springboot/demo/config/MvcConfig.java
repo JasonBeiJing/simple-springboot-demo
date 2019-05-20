@@ -1,4 +1,4 @@
-package com.huawei.it.acc.sign.template.impl.config;
+package com.springboot.demo.config;
 
 import java.util.Locale;
 
