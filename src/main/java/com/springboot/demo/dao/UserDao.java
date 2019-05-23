@@ -82,7 +82,7 @@ public class UserDao {
 		
 		if(StringUtils.isNotBlank(name)) {
 			paramSource.addValue("name", "%" + name + "%");
-			sql.append(" AND name =:name");
+			sql.append(" AND name Like :name");
 		}
 		
 		if(StringUtils.isNotBlank(phone)) {
