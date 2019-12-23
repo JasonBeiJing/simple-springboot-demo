@@ -17,6 +17,7 @@ public class Log extends AbstractMongoDateTimeEntity {
 	private String type;
 	private String name;
 	private String desc;
+	private Boolean xxx;
 	
 	public String getKey() {
 		return key;
@@ -47,5 +48,11 @@ public class Log extends AbstractMongoDateTimeEntity {
 	}
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+	public Boolean getXxx() {
+		return xxx;
+	}
+	public void setXxx(Boolean xxx) {
+		this.xxx = xxx;
 	}
 }

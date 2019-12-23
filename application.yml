@@ -26,10 +26,10 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      username: root
-      password: mongo
-      database: jw_dummy
-      authentication-database: admin
+      #username: root
+      #password: mongo
+      #database: jw_dummy
+      #authentication-database: admin
   redis:
     lettuce:
       pool: 
@@ -63,6 +63,12 @@ management:
   endpoint:
     health:
       show-details: always
+knife4j:
+  basic: #非生产环境，可加权限校验
+    enable: false
+    username: x
+    password: y
+  production: false # 生产环境，直接关闭
 ---
 spring:
   profiles: dev

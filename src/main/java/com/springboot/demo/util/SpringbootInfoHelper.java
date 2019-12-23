@@ -1,6 +1,7 @@
 package com.springboot.demo.util;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -8,6 +9,7 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.support.PropertiesLoaderSupport;
@@ -57,6 +59,9 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 	@Autowired(required = false)
 	private List<PropertiesLoaderSupport> propertiesLoaders;
 	
+	@Autowired(required = false)
+	private List<RestTemplateBuilder> rtbs;
+	
 	
 	@PostConstruct
 	public void init() {
@@ -70,11 +75,11 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 			applicationContexts();
 			interceptors();
 			propertiesLoaders();
+			rest();
 			logger.info("=============");
 			logger.info("========================");
 		}
 	}
-	
 
 	private void mysqlConfig() {
 		if(!CollectionUtils.isEmpty(datasources)) {
@@ -178,6 +183,16 @@ private static final Logger logger = LoggerFactory.getLogger(SpringbootInfoHelpe
 			}			
 		}else {
 			logger.info(" ======= NO PropertiesLoaderSupport found ===========");
+		}
+	}
+	
+	private void rest() {
+		if (Objects.nonNull(rtbs)) {
+			for (RestTemplateBuilder rtb : rtbs) {
+				logger.info("RestTemplateBuilder -------- >" + rtb.getClass().getCanonicalName());
+			}
+		} else {
+			logger.info(" ======= NO RestTemplateBuilder found ===========");
 		}
 	}
 	
