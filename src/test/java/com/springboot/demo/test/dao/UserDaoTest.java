@@ -7,8 +7,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.springboot.demo.dao.UserDao;
-import com.springboot.demo.entity.User;
-import com.springboot.demo.exception.DatabaseException;
+import com.springboot.demo.domain.entity.User;
+import com.springboot.demo.domain.exception.DatabaseException;
 
 //public class UserDaoTest extends AbstractBaseDaoTest{
 

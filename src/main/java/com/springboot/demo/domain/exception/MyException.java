@@ -1,4 +1,4 @@
-package com.springboot.demo.exception;
+package com.springboot.demo.domain.exception;
 
 public class MyException extends Exception {
 

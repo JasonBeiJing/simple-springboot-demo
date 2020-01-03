@@ -1,4 +1,4 @@
-package com.springboot.demo.controller.interceptor;
+package com.springboot.demo.web.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.springboot.demo.controller.namespace.ApiNamespace;
+import com.springboot.demo.web.namespace.ApiNamespace;
 
 @Component
 public class UserInterceptor extends HandlerInterceptorAdapter {

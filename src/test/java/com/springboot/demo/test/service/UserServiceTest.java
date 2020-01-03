@@ -5,7 +5,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.springboot.demo.entity.Attribute;
+import com.springboot.demo.domain.entity.Attribute;
 import com.springboot.demo.service.UserService;
 
 //not good, has to start up the application

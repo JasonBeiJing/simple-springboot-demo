@@ -1,4 +1,4 @@
-package com.springboot.demo.entity;
+package com.springboot.demo.domain.entity;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;

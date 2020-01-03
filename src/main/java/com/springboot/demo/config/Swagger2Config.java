@@ -25,7 +25,7 @@ public class Swagger2Config {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.useDefaultResponseMessages(false)
 				.select()
-				.apis(RequestHandlerSelectors.basePackage("com.springboot.demo.controller"))
+				.apis(RequestHandlerSelectors.basePackage("com.springboot.demo.web.controller"))
 				.build()
 				.apiInfo(metaData());
 	}

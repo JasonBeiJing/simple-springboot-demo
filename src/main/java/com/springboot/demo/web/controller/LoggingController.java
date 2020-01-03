@@ -1,4 +1,4 @@
-package com.springboot.demo.controller;
+package com.springboot.demo.web.controller;
 
 import java.util.List;
 
@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springboot.demo.controller.namespace.ApiNamespace;
-import com.springboot.demo.entity.Log;
-import com.springboot.demo.exception.EntityNotFoundException;
+import com.springboot.demo.domain.entity.Log;
+import com.springboot.demo.domain.exception.EntityNotFoundException;
 import com.springboot.demo.service.LoggingService;
+import com.springboot.demo.web.namespace.ApiNamespace;
 
 import io.swagger.annotations.Api;
 
 @RestController
-@RequestMapping(value = ApiNamespace.URI_LOGS, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = ApiNamespace.URI_LOGS, produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(value = "日志APIs", tags= {"B"})
 public class LoggingController {
 	

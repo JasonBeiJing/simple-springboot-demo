@@ -1,4 +1,4 @@
-package com.springboot.demo.controller;
+package com.springboot.demo.web.controller;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,13 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springboot.demo.controller.namespace.ApiNamespace;
-import com.springboot.demo.entity.Attribute;
-import com.springboot.demo.entity.User;
-import com.springboot.demo.exception.DatabaseException;
-import com.springboot.demo.exception.EntityNotFoundException;
-import com.springboot.demo.exception.IllegalVariableException;
+import com.springboot.demo.domain.entity.Attribute;
+import com.springboot.demo.domain.entity.User;
+import com.springboot.demo.domain.exception.DatabaseException;
+import com.springboot.demo.domain.exception.EntityNotFoundException;
+import com.springboot.demo.domain.exception.IllegalVariableException;
 import com.springboot.demo.service.UserService;
+import com.springboot.demo.web.namespace.ApiNamespace;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,7 +39,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping(value = ApiNamespace.URI_USERS, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = ApiNamespace.URI_USERS, produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(value = "用户APIs", tags= {"A"})
 @ApiResponses(value = {
 		@ApiResponse(code = 500, message = "服务端错误，请联系API管理员")

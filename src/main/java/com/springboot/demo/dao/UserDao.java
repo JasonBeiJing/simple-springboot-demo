@@ -22,8 +22,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.springboot.demo.entity.User;
-import com.springboot.demo.exception.DatabaseException;
+import com.springboot.demo.domain.entity.User;
+import com.springboot.demo.domain.exception.DatabaseException;
 
 @Repository
 public class UserDao {

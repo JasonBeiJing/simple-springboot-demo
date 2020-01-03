@@ -1,4 +1,4 @@
-package com.springboot.demo.controller.advice;
+package com.springboot.demo.web.advice;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,16 +13,15 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.springboot.demo.exception.EntityNotFoundException;
-import com.springboot.demo.exception.IllegalVariableException;
-import com.springboot.demo.exception.MyException;
+import com.springboot.demo.domain.exception.EntityNotFoundException;
+import com.springboot.demo.domain.exception.IllegalVariableException;
+import com.springboot.demo.domain.exception.MyException;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class ExceptionAdvice {
 
 	private static final Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
@@ -32,21 +31,18 @@ public class ExceptionAdvice {
 	
 	@ExceptionHandler(EntityNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	@ResponseBody
 	public List<SerializableException> handleEntityNotFoundException(EntityNotFoundException exception) {
 		return Collections.singletonList(generateSerializableException(exception));
 	}
 	
 	@ExceptionHandler(IllegalVariableException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ResponseBody
 	public List<SerializableException> handleIllegalVariableException(IllegalVariableException exception) {
 		return Collections.singletonList(generateSerializableException(exception));
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	@ResponseBody
 	public List<SerializableException> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
 		List<ObjectError> errors = exception.getBindingResult().getAllErrors();
 		List<SerializableException> out = new ArrayList<>(errors.size());
@@ -67,7 +63,6 @@ public class ExceptionAdvice {
 	
 	@ExceptionHandler(Throwable.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ResponseBody
 	public List<SerializableException> handleThrowable(Throwable exception) {
 		return Collections.singletonList(generateSerializableException(exception));
 	}

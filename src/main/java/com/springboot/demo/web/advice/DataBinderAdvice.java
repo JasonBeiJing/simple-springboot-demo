@@ -1,4 +1,4 @@
-package com.springboot.demo.controller.advice;
+package com.springboot.demo.web.advice;
 
 import java.util.ArrayList;
 import java.util.List;

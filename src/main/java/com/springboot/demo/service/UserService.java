@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -15,14 +17,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.springboot.demo.dao.UserDao;
-import com.springboot.demo.entity.Attribute;
-import com.springboot.demo.entity.User;
-import com.springboot.demo.exception.DatabaseException;
-import com.springboot.demo.exception.EntityNotFoundException;
-import com.springboot.demo.exception.IllegalVariableException;
+import com.springboot.demo.domain.entity.Attribute;
+import com.springboot.demo.domain.entity.User;
+import com.springboot.demo.domain.exception.DatabaseException;
+import com.springboot.demo.domain.exception.EntityNotFoundException;
+import com.springboot.demo.domain.exception.IllegalVariableException;
+import com.springboot.demo.event.UserMissingEvent;
 
 @Service
-public class UserService {
+public class UserService implements ApplicationEventPublisherAware {
 	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
 	private static final String CACHE_NAME = "USER_DAO_CACHE_";
@@ -34,11 +37,16 @@ public class UserService {
 	@Autowired
 	private RedisTemplate<String, User> userRedisTemplate;
 	
+	// applicationEventPublisher即ApplicationContext实例，ApplicationContext继承自ApplicationEventPublisher，亦可直接注入
+	private ApplicationEventPublisher applicationEventPublisher;
+	
 	public User getUserById(Long id) throws DatabaseException, EntityNotFoundException {
 		User user = userRedisTemplate.opsForValue().get(CACHE_NAME + id);
 		logger.debug(" === got user from cache ? {} ==== ", user == null ? "NO" : "YES");
 		if(user == null) {
-			userRedisTemplate.opsForValue().set(CACHE_NAME + id, user = userDao.getById(id), 30, TimeUnit.SECONDS);
+			logger.info(" === ApplicationEventPublisher ::: " + applicationEventPublisher.getClass().getCanonicalName());
+			applicationEventPublisher.publishEvent(new UserMissingEvent(this, id+""));
+			//userRedisTemplate.opsForValue().set(CACHE_NAME + id, user = userDao.getById(id), 30, TimeUnit.SECONDS);
 		}
 		if(user == null) {
 			logger.warn("user not found with id: {}", id);
@@ -83,6 +91,11 @@ public class UserService {
 		myBusinessAttributes.add(new Attribute("2", "b"));
 		
 		return myBusinessAttributes;
+	}
+
+	@Override
+	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+		this.applicationEventPublisher = applicationEventPublisher;
 	}
 
 }

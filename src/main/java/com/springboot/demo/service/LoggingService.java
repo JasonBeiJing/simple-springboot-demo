@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springboot.demo.dao.LogRepository;
-import com.springboot.demo.entity.Log;
-import com.springboot.demo.exception.EntityNotFoundException;
+import com.springboot.demo.domain.entity.Log;
+import com.springboot.demo.domain.exception.EntityNotFoundException;
 
 @Service
 public class LoggingService {

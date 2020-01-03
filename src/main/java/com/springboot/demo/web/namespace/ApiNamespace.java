@@ -1,4 +1,4 @@
-package com.springboot.demo.controller.namespace;
+package com.springboot.demo.web.namespace;
 
 public class ApiNamespace {
 

@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.util.CollectionUtils;
 
-import com.springboot.demo.entity.Log;
+import com.springboot.demo.domain.entity.Log;
 
 public class LogRepositoryImpl implements ILogRepository {
 	

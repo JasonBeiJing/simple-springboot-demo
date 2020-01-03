@@ -1,11 +1,11 @@
-package com.springboot.demo.controller.validator;
+package com.springboot.demo.web.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.springboot.demo.entity.User;
+import com.springboot.demo.domain.entity.User;
 
 @Component
 public class UserValidator implements Validator{
