@@ -44,9 +44,10 @@ public class UserService implements ApplicationEventPublisherAware {
 		User user = userRedisTemplate.opsForValue().get(CACHE_NAME + id);
 		logger.debug(" === got user from cache ? {} ==== ", user == null ? "NO" : "YES");
 		if(user == null) {
-			logger.info(" === ApplicationEventPublisher ::: " + applicationEventPublisher.getClass().getCanonicalName());
+			logger.info(Thread.currentThread().getId() + " === ApplicationEventPublisher ::: " + applicationEventPublisher.getClass().getCanonicalName());
+			// 同步找相应的ApplicationListener，然后当前线程立刻执行各Listeners
 			applicationEventPublisher.publishEvent(new UserMissingEvent(this, id+""));
-			//userRedisTemplate.opsForValue().set(CACHE_NAME + id, user = userDao.getById(id), 30, TimeUnit.SECONDS);
+			userRedisTemplate.opsForValue().set(CACHE_NAME + id, user = userDao.getById(id), 30, TimeUnit.SECONDS);
 		}
 		if(user == null) {
 			logger.warn("user not found with id: {}", id);

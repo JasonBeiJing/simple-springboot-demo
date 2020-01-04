@@ -10,10 +10,12 @@ import com.springboot.demo.event.UserMissingEvent;
 @Order(1)
 public class UserMissingEventListener1 implements ApplicationListener<UserMissingEvent> {
 
+	// 同步执行【产生事件的主线程】
+	
 	@Override
 	public void onApplicationEvent(UserMissingEvent event) {
 		String id = event.getUserId();
 		Object source = event.getSource();
-		System.out.println("111 ---> USER 【" + id + "】 is missing in cache" + " ==> " + source.getClass().getCanonicalName());
+		System.out.println("111 --"+ Thread.currentThread().getId() +"--> USER 【" + id + "】 is missing in cache" + " ==> " + source.getClass().getCanonicalName());
 	}
 }
