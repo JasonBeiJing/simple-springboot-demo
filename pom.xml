@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mc.service</groupId>
@@ -13,37 +14,37 @@
 		<version>2.2.1.RELEASE</version>
 		<relativePath />
 	</parent>
-	
-	<properties>        
-        <java.version>1.8</java.version>
+
+	<properties>
+		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
 
 		<swagger.version>1.9.6</swagger.version>
 		<springboot.admin.version>2.2.0</springboot.admin.version>
 		<jacoco.version>0.8.2</jacoco.version>
-		
+
 		<!-- sonarqube properties -->
-        <sonar.projectKey>com.mc.service:springboot-demo</sonar.projectKey>
+		<sonar.projectKey>com.mc.service:springboot-demo</sonar.projectKey>
 		<sonar.projectName>${project.name}</sonar.projectName>
 		<sonar.projectVersion>${project.version}</sonar.projectVersion>
 		<sonar.projectDescription>${project.description}</sonar.projectDescription>
 		<sonar.sources>src/main</sonar.sources>
-        <sonar.tests>src/test</sonar.tests>
-        <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
-        <sonar.jacoco.reportPaths>target/jacoco.exec</sonar.jacoco.reportPaths>
-        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.host.url>http://localhost:9000</sonar.host.url>
-        <sonar.login>administrator</sonar.login>
-        <sonar.password>pwd</sonar.password>
-        <sonar.exclusions>
-        	
-        </sonar.exclusions>
-        <sonar.coverage.exclusions>
-        
-        </sonar.coverage.exclusions>
+		<sonar.tests>src/test</sonar.tests>
+		<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+		<sonar.jacoco.reportPaths>target/jacoco.exec</sonar.jacoco.reportPaths>
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.host.url>http://localhost:9000</sonar.host.url>
+		<sonar.login>administrator</sonar.login>
+		<sonar.password>pwd</sonar.password>
+		<sonar.exclusions>
+
+		</sonar.exclusions>
+		<sonar.coverage.exclusions>
+
+		</sonar.coverage.exclusions>
 	</properties>
 
 	<dependencies>
@@ -64,46 +65,44 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		 <!-- <dependency>
-            <groupId>io.springfox</groupId>
-	    	<artifactId>springfox-swagger2</artifactId>
-	    	<version>${swagger.version}</version>
-        </dependency>
+		<!-- <dependency> <groupId>io.springfox</groupId> <artifactId>springfox-swagger2</artifactId> 
+			<version>${swagger.version}</version> </dependency> <dependency> <groupId>io.springfox</groupId> 
+			<artifactId>springfox-swagger-ui</artifactId> <version>${swagger.version}</version> 
+			</dependency> -->
 		<dependency>
-		    <groupId>io.springfox</groupId>
-		    <artifactId>springfox-swagger-ui</artifactId>
-		    <version>${swagger.version}</version>
-		</dependency> -->
-		<dependency>
-		    <groupId>com.github.xiaoymin</groupId>
-		    <artifactId>knife4j-spring-boot-starter</artifactId>
-		    <version>${swagger.version}</version>
+			<groupId>com.github.xiaoymin</groupId>
+			<artifactId>knife4j-spring-boot-starter</artifactId>
+			<version>${swagger.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>de.codecentric</groupId>
-		    <artifactId>spring-boot-admin-starter-client</artifactId>
-		    <version>${springboot.admin.version}</version>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+			<version>${springboot.admin.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
-      	</dependency>
-      	<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
-      	<dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-pool2</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-lang3</artifactId>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
 		</dependency>
-		 <dependency>
-               <groupId>org.springframework.boot</groupId>
-               <artifactId>spring-boot-starter-test</artifactId>
-           </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -115,12 +114,12 @@
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
-			    <artifactId>jacoco-maven-plugin</artifactId>
-			    <version>${jacoco.version}</version>
-			    <configuration>
-			    	<skip>false</skip>
-			    	<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
-			    	<outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<configuration>
+					<skip>false</skip>
+					<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+					<outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
 					<excludes>
 						<exclude>com/springboot/demo/Application*</exclude>
 						<exclude>com/springboot/demo/config/**/*</exclude>
@@ -129,8 +128,8 @@
 						<exclude>com/springboot/demo/controller/namespace/**/*</exclude>
 					</excludes>
 				</configuration>
-			    <executions>
-			    	<execution>
+				<executions>
+					<execution>
 						<id>pre-test</id>
 						<goals>
 							<goal>prepare-agent</goal>
@@ -150,7 +149,7 @@
 							<outputDirectory>target/jacoco-ut</outputDirectory>
 						</configuration>
 					</execution>
-			    </executions>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

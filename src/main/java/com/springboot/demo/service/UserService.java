@@ -23,6 +23,7 @@ import com.springboot.demo.domain.exception.DatabaseException;
 import com.springboot.demo.domain.exception.EntityNotFoundException;
 import com.springboot.demo.domain.exception.IllegalVariableException;
 import com.springboot.demo.event.UserMissingEvent;
+import com.springboot.demo.util.MyAspectAnnotation;
 
 @Service
 public class UserService implements ApplicationEventPublisherAware {
@@ -40,6 +41,7 @@ public class UserService implements ApplicationEventPublisherAware {
 	// applicationEventPublisher即ApplicationContext实例，ApplicationContext继承自ApplicationEventPublisher，亦可直接注入
 	private ApplicationEventPublisher applicationEventPublisher;
 	
+	@MyAspectAnnotation
 	public User getUserById(Long id) throws DatabaseException, EntityNotFoundException {
 		User user = userRedisTemplate.opsForValue().get(CACHE_NAME + id);
 		logger.debug(" === got user from cache ? {} ==== ", user == null ? "NO" : "YES");

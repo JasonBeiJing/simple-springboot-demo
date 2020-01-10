@@ -47,6 +47,7 @@ public class UserDao {
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		} catch (Exception e) {
+			logger.error(DatabaseException.ERROR_CODE.DB_GET_ERROR.name(), e);
 			throw new DatabaseException(DatabaseException.ERROR_CODE.DB_GET_ERROR, "database error : failed to get user entity", e);
 		}
 	}

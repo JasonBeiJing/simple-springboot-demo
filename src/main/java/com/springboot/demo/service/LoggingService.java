@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.springboot.demo.dao.LogRepository;
 import com.springboot.demo.domain.entity.Log;
 import com.springboot.demo.domain.exception.EntityNotFoundException;
+import com.springboot.demo.util.MyAspectAnnotation;
 
 @Service
 public class LoggingService {
@@ -21,6 +22,7 @@ public class LoggingService {
 		return logRepository.save(log);
 	}
 
+	@MyAspectAnnotation
 	public Log getLogById(String id) throws EntityNotFoundException {
 		Optional<Log> tag = logRepository.findById(id);
 		if(!tag.isPresent()) {

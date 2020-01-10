@@ -55,4 +55,10 @@ public class Log extends AbstractMongoDateTimeEntity {
 	public void setXxx(Boolean xxx) {
 		this.xxx = xxx;
 	}
+	@Override
+	public String toString() {
+		return "Log [key=" + key + ", value=" + value + ", type=" + type + ", name=" + name + ", desc=" + desc
+				+ ", xxx=" + xxx + "]";
+	}
+	
 }
