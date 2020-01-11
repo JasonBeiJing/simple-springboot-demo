@@ -105,7 +105,7 @@ public class UserController {
 		logger.debug(" === got user with ID: {} ==== ", id);
 		return userService.getUserById(id);
 	}
-	
+
 	@ApiOperation("根据用户ID更新用户信息")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "更行用户信息成功"),

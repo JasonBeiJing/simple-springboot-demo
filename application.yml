@@ -8,20 +8,35 @@ spring:
   application:
     name: springboot-demo
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true
-    username: root
-    password: mysql
-    type: com.zaxxer.hikari.HikariDataSource
-    hikari:
-      minimum-idle: 5
-      maximum-pool-size: 15
-      auto-commit: true
-      idle-timeout: 30000
-      pool-name: HikariDataSource-Mysql-Pool
-      max-lifetime: 1800000
-      connection-timeout: 30000
-      connection-test-query: SELECT 1
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid: # pool configuration
+      initial-size: 2
+      min-idle: 2
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: false
+      max-open-prepared-statements: -1
+      connectionProperties: druid.stat.slowSqlMillis=1000;druid.stat.logSlowSql=false
+      filters: stat,wall,slf4j
+      web-stat-filter: # WebStatFilter configuration
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+      stat-view-servlet: # StatViewServlet configuration
+        enabled: true
+        url-pattern: /druid/*
+        allow: 127.0.0.1
+        deny: 192.168.1.73
+        reset-enable: false
+        login-username: admin
+        login-password: abc123
+      aop-patterns: com.springboot.demo.*
   data:
     mongodb:
       host: localhost
