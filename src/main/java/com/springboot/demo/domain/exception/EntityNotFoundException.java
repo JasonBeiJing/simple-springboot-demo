@@ -9,7 +9,7 @@ public class EntityNotFoundException extends MyException {
 	
 	public static enum ERROR_CODE{
 		USER_NOT_FOUND,
-		TAG_NOT_FOUND
+		LOG_NOT_FOUND
 	}
 
 	

@@ -5,20 +5,20 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.springboot.demo.domain.entity.User;
+import com.springboot.demo.domain.entity.Log;
 
 @Component
-public class UserValidator implements Validator{
+public class LogValidator implements Validator {
 
 	private static enum ERROR_CODE {
-		PHONE_MISSING
+		KEY_REQUIRED
 	}
-	
-	private static final String FIELD_PHONE = "phone";
-	
+
+	private static final String FIELD_KEY = "key";
+
 	@Override
 	public boolean supports(Class<?> clazz) {
-		if(User.class.isAssignableFrom(clazz)) {
+		if (Log.class.isAssignableFrom(clazz)) {
 			return true;
 		}
 		return false;
@@ -26,8 +26,8 @@ public class UserValidator implements Validator{
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, FIELD_PHONE, ERROR_CODE.PHONE_MISSING.name(), new Object[] {},
-				"phone number is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, FIELD_KEY, ERROR_CODE.KEY_REQUIRED.name(), new Object[] {},
+				"key is required");
 	}
 
 }

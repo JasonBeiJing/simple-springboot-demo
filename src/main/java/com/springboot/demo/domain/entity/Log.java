@@ -1,9 +1,8 @@
 package com.springboot.demo.domain.entity;
 
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document("C_Log")
 public class Log extends AbstractMongoDateTimeEntity {
 
 	/**
@@ -11,13 +10,13 @@ public class Log extends AbstractMongoDateTimeEntity {
 	 */
 	private static final long serialVersionUID = -6686082797225704389L;
 
-	@Indexed(background=true, unique=true)
+	// @Indexed(background=true, unique=true)
+	// spring.data.mongodb.auto-index-creation=true
 	private String key;
-	private Object value;
 	private String type;
 	private String name;
 	private String desc;
-	private Boolean xxx;
+	private Object value;
 	
 	public String getKey() {
 		return key;
@@ -48,17 +47,6 @@ public class Log extends AbstractMongoDateTimeEntity {
 	}
 	public void setDesc(String desc) {
 		this.desc = desc;
-	}
-	public Boolean getXxx() {
-		return xxx;
-	}
-	public void setXxx(Boolean xxx) {
-		this.xxx = xxx;
-	}
-	@Override
-	public String toString() {
-		return "Log [key=" + key + ", value=" + value + ", type=" + type + ", name=" + name + ", desc=" + desc
-				+ ", xxx=" + xxx + "]";
 	}
 	
 }

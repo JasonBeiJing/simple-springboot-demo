@@ -1,7 +1,6 @@
 package com.springboot.demo.domain.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.Id;
 
