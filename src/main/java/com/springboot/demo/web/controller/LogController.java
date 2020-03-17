@@ -1,5 +1,6 @@
 package com.springboot.demo.web.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,8 @@ public class LogController {
 			@RequestParam(required = false) List<String> keys, 
 			@RequestParam(required = false) String type, 
 			@RequestParam(required = false) String name, 
+			@RequestParam(required = false) LocalDateTime from, 
+			@RequestParam(required = false) LocalDateTime to,
 			@RequestParam(required = false, defaultValue = "1") int curPage, 
 			@RequestParam(required = false, defaultValue = "100") int pageSize) {
 		return logService.queryLogs(keys, type, name, curPage, pageSize);

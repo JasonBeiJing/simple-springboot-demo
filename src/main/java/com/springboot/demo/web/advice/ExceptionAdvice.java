@@ -41,6 +41,16 @@ public class ExceptionAdvice {
 		return Collections.singletonList(generateSerializableException(exception));
 	}
 	
+	@ExceptionHandler(IllegalArgumentException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public List<SerializableException> handleIllegalArgumentException(IllegalArgumentException exception) {
+		String errorCode = "ILLEGAL_INPUT";
+		String errorMessage = messageSource.getMessage(errorCode, null, exception.getMessage(),
+				LocaleContextHolder.getLocale());
+		SerializableException se = new SerializableException(errorCode, errorMessage);
+		return Collections.singletonList(se);
+	}
+	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	public List<SerializableException> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {

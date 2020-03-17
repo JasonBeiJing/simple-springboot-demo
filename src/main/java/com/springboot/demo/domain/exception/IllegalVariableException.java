@@ -9,7 +9,8 @@ public class IllegalVariableException extends MyException {
 	
 	public static enum ERROR_CODE{
 		ID_MISMATCHED,
-		USER_EXISTED
+		USER_EXISTED,
+		INVALID_INPUT
 	}
 
 	public IllegalVariableException(ERROR_CODE errorCode, String defaultErrorMessage, Object... args) {
