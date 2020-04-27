@@ -16,6 +16,7 @@ public class Log extends AbstractMongoDateTimeEntity {
 	private String type;
 	private String name;
 	private String desc;
+	private Long userId;
 	private Object value;
 	
 	public String getKey() {
@@ -47,6 +48,12 @@ public class Log extends AbstractMongoDateTimeEntity {
 	}
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 	
 }
